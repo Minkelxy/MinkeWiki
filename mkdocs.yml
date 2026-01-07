@@ -1,12 +1,40 @@
-site_name: 我的文档站
+site_name: Minke的技术文档库
 nav:
-  - 首页: index.md
-  - 使用指南: guide.md
+  - 首页: 
+    - 欢迎: index.md
+  - 制作项目:
+    - 制作目录: 制作/制作目录.md
+  - 知识库:
+    - 知识总览: 知识/目录.md
+    - 电机控制:
+      - 电机控制概述: 知识/电机控制/README.md
+      - FOC学习笔记: 知识/电机控制/FOC学习笔记.md
+      - BLDC代码分析: 知识/电机控制/BLDC代码分析.md
+      - 电机霍尔驱动: 知识/电机控制/电机霍尔驱动.md
+    - 芯片驱动:
+      - 芯片驱动概述: 知识/芯片驱动/README.md
+      - 开路诊断: 知识/芯片驱动/开路诊断.md
+      - 故障诊断: 知识/芯片驱动/故障诊断.md
+    - AUTOSAR:
+      - AUTOSAR概述: 知识/AUTOSAR/README.md
+      - AUTOSAR_DIO: 知识/AUTOSAR/AUTOSAR_DIO.md
+      - 软件功能安全学习: 知识/AUTOSAR/软件功能安全学习.md
+    - 编程规范:
+      - 编程规范概述: 知识/编程规范/README.md
+      - 编程规范记录: 知识/编程规范/编程规范记录.md
+    - 软件测试:
+      - 软件测试概述: 知识/软件测试/README.md
+      - 单元测试学习: 知识/软件测试/单元测试学习.md
+    - RTOS:
+      - RTOS概述: 知识/RTOS/README.md
+      - 自制RTOS: 知识/RTOS/自制RTOS.md
+    - 其他:
+      - 其他知识概述: 知识/其他/README.md
+      - 状态机学习: 知识/其他/状态机学习.md
+      - 缩略词查询: 知识/其他/缩略词查询.md
+      - 软件详细文档撰写脚本记录: 知识/其他/软件详细文档撰写脚本记录.md
 theme: readthedocs
 
 # 额外配置
 repo_name: 'Minkelxy/MinkeWiki'
 repo_url: 'https://github.com/Minkelxy/MinkeWiki'
-
-# 如果您计划使用GitHub Pages，则可能需要设置此选项
-# site_url: 'https://your-username.github.io/your-repo-name'
