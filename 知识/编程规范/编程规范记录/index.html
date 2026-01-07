@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>编程规范记录 - Minke的技术文档库</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u7f16\u7a0b\u89c4\u8303\u8bb0\u5f55";
+        var mkdocs_page_input_path = "\u77e5\u8bc6/\u7f16\u7a0b\u89c4\u8303/\u7f16\u7a0b\u89c4\u8303\u8bb0\u5f55.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Minke的技术文档库
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">首页</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../..">欢迎</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">制作项目</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E5%88%B6%E4%BD%9C/%E5%88%B6%E4%BD%9C%E7%9B%AE%E5%BD%95/">制作目录</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">知识库</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../%E7%9B%AE%E5%BD%95/">知识总览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">电机控制</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/">电机控制概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/FOC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">FOC学习笔记</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/BLDC%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">BLDC代码分析</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/%E7%94%B5%E6%9C%BA%E9%9C%8D%E5%B0%94%E9%A9%B1%E5%8A%A8/">电机霍尔驱动</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">芯片驱动</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/">芯片驱动概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/%E5%BC%80%E8%B7%AF%E8%AF%8A%E6%96%AD/">开路诊断</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD/">故障诊断</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">AUTOSAR</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../AUTOSAR/">AUTOSAR概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../AUTOSAR/AUTOSAR_DIO/">AUTOSAR_DIO</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../AUTOSAR/%E8%BD%AF%E4%BB%B6%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/">软件功能安全学习</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">编程规范</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../">编程规范概述</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">编程规范记录</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_2">风格</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#c">C模块文件头要求</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#c_1">C函数头要求</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_3">包含文件</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">定义文件</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">代码行</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">空格和缩进</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">对齐</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">注释</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">命名</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">软件测试</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0/">单元测试学习</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">RTOS</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../RTOS/">RTOS概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../RTOS/%E8%87%AA%E5%88%B6RTOS/">自制RTOS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">其他</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E5%85%B6%E4%BB%96/">其他知识概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E5%85%B6%E4%BB%96/%E7%8A%B6%E6%80%81%E6%9C%BA%E5%AD%A6%E4%B9%A0/">状态机学习</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E5%85%B6%E4%BB%96/%E7%BC%A9%E7%95%A5%E8%AF%8D%E6%9F%A5%E8%AF%A2/">缩略词查询</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E5%85%B6%E4%BB%96/%E8%BD%AF%E4%BB%B6%E8%AF%A6%E7%BB%86%E6%96%87%E6%A1%A3%E6%92%B0%E5%86%99%E8%84%9A%E6%9C%AC%E8%AE%B0%E5%BD%95/">软件详细文档撰写脚本记录</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Minke的技术文档库</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>知识库 &raquo;</li>
+          <li>编程规范 &raquo;</li>
+      <li>编程规范记录</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Minkelxy/MinkeWiki/edit/master/docs/知识/编程规范/编程规范记录.md">Edit on Minkelxy/MinkeWiki</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">编程规范记录</h1>
+<p>[toc]</p>
+<h2 id="_2">风格</h2>
+<h3 id="c">C模块文件头要求</h3>
+<p>每一个C/H文件都应有文件头。
+文件头包括以下组成部分：版权声明、文件名、项目／产品名称、标题名称、作者、功能描述、约束、变更历史等。
+下面的模板待完善</p>
+<pre><code class="language-c">/*
+ *  File Name:      &lt;文件名&gt;
+ *  Project Name:   &lt;项目名称&gt;
+ *  Title:          &lt;标题名称&gt;
+ *  Author:         &lt;作者&gt;
+ *  Description:    &lt;功能描述&gt;
+ *  Constraints:    &lt;约束&gt;
+ *  Change History: &lt;变更历史&gt;
+ */
+</code></pre>
+<h3 id="c_1">C函数头要求</h3>
+<p>每一个C 函数都应有函数头。</p>
+<p>函数头包括以下组成部分：函数名、简要描述、输入变量、输出变量、约束等 
+ <code>c
+/*
+ *  Function Name:  &lt;函数名&gt;
+ *  Description:    &lt;简要描述&gt;
+ *  Input:          &lt;输入变量&gt;
+ *  Output:         &lt;输出变量&gt;
+ *  Constraints:    &lt;约束&gt;
+ */</code>
+风格保持个人统一和集体统一，避免出现不一致。</p>
+<h3 id="_3">包含文件</h3>
+<p>头文件按以下顺序，由三部分内容构成：
+文件头；
+预处理块（如果存在）； 
+函数和变量声明等（如果存在）。</p>
+<p>所有包含文件都应加后缀.h。</p>
+<p>用 #include “filename.h” 格式来引用头文件（编译器将从用户的工作目录开始搜索），引用的标准库文件放入到用户工作目录下。</p>
+<h3 id="_4">定义文件</h3>
+<p>定义文件按以下顺序，由三部分内容构成：
+文件头；
+对一些头文件的引用（如果存在）；
+程序的实现体（包括数据和代码）（如果存在）；</p>
+<p>源代码中不允许出现无用变量。  </p>
+<h3 id="_5">代码行</h3>
+<p>一行代码只做一件事情，比如只定义一个变量，或只写一条语句，以使代码易阅读，并且便于写注释。</p>
+<p>较长语句要换行，长的语句（&gt;80 字符）要分成多行书写。  </p>
+<h3 id="_6">空格和缩进</h3>
+<p>对于嵌套语句，每一层嵌套缩进4 个空格，不允许使用“tab”键缩进</p>
+<h3 id="_7">对齐</h3>
+<p>表示程序结构开始和结束的括弧‘{’和‘}’应独占一行并且与程序结构的第一个字符对齐。起始和结束括弧{}内的代码应缩排成一个等级，当内嵌括弧时，括弧内的代码应随内嵌括弧继续缩进。  </p>
+<h3 id="_8">注释</h3>
+<p>注释缩进格式应与代码的缩进级别一致。
+注释的位置可以放在代码的上方或右方，不可放在左方、下方。
+建议使用英文注释。
+不允许在一行代码或表达式的中间插入注释。</p>
+<p>代码必须有适当的注释。 
+建议至少确保下列内容要给予注释。
+（1）全局变量 或认为有必要的 局部变量定义或 声明，说明：在对变量定义或声明的同时，应对其含义、作用及取值范围进行注释说明。同时，若有必要还应说明与其它变量的关系。
+（2）语句块的结束 ，即 ”}” 处</p>
+<p>注释的内容要清楚、明了，含义准确，防止注释的二义性。
+【规则解释】错误的注释不但无益，反而有害</p>
+<p>注释应当是在代码的功能、意图层面上进行注释，提供额外的、有效的信息。
+【规则解释】注释的目的是解释代码的目的、功能和采用的方法，提供代码以外的信息，帮助读者理解代码，防止没必要的重复注释信息</p>
+<p>通过对函数、变量、结构等正确的命名以及合理的组织代码的结构，使代码成为自注释的。
+【规则解释】清晰准确的函数、变量等的命名，可增加代码的可读性，并可以减少不必要的注释</p>
+<p>数据结构定义 ( 包括数组、结构类枚举等 ) ，如果其命名不是充分自注释的，必须加以注释。</p>
+<p>对自定义数据类型进行恰当命名，使它成为自描述性的，以提高代码可读性。</p>
+<p>【规则解释】使用自定义类型，可以弥补编程语言提供类型少、信息量不足的缺点，并能使程序清晰、简洁。</p>
+<p>对自定义数据类型进行恰当命名，使它成为自描述性的，以提高代码可读性。</p>
+<p>【规则解释】使用自定义类型，可以弥补编程语言提供类型少、信息量不足的缺点，并能使程序清晰、简洁。</p>
+<h3 id="_9">命名</h3>
+<p>禁止使用汉语拼音命名
+宏代表常数（量）或者常数（量）表达式时，其名称一律采用全大写</p>
+<p>/<em> macro definition </em>/
+/<em> Write mode </em>/</p>
+<h1 id="define-tle9262_op_mode_write-0x80u">define TLE9262_OP_MODE_WRITE   0x80u</h1>
+<p>/<em> Read mode </em>/  </p>
+<h1 id="define-tle9262_op_mode_read-0x00u">define TLE9262_OP_MODE_READ    0x00u</h1>
+<p>/<em> Read and Clear Status </em>/  </p>
+<h1 id="define-tle9262_op_mode_read_clr_st-0x80u">define TLE9262_OP_MODE_READ_CLR_ST    0x80u</h1>
+<p>文件命名：统一格式为<Module name>A.B
+【规则解释】
+A:标识一个模块不同文件的属性：</p>
+<p>文件命名：统一格式为<Module name>A.B
+【规则解释】
+Module name：模块缩写，2-8个字母，每个单词第一个字母大写，后面字母小写；
+A:标识一个模块不同文件的属性：
+B:c或者h  </p>
+<p>示例：
+CanTp_Cbk.h
+CanTp_Cfg.h
+CanTp_PBcfg.c</p>
+<p>命名：英文缩写可参见《汽车软件术语定义规范》</p>
+<p>变量名按下表规则添加前缀（绿色表示可省略）</p>
+<p>模块自定义的数据类型，应加上前缀<Module name>_，这样可以避免不同模块之间可能使用相同的名称</p>
+<p>全局变量：g<Module name>_<Variable name>
+局部变量不允许加Module name;</p>
+<p>函数命名：<Module name>_FunctionName</p>
+<p>宏命名：<Module name>_MacroName</p>
+<p>除0、用来表示递增和递减的数值1及其他允许使用的数值外，禁止直接使用数值，所有数值应定义为常量或用#define定义，以便于维护和升级</p>
+<p>/<em> macro definition </em>/</p>
+<h1 id="define-immo_id_length_byte-4u">define IMMO_ID_LENGTH_BYTE                       (4u)</h1>
+<h1 id="define-immo_pswt_length_byte-4u">define IMMO_PSWT_LENGTH_BYTE                 (4u)</h1>
+<h1 id="define-immo_pswb_length_byte-4u">define IMMO_PSWB_LENGTH_BYTE                 (4u)</h1>
+<h1 id="define-immo_rke_skh_length_byte-2u">define IMMO_RKE_SKH_LENGTH_BYTE           (2u)</h1>
+<h1 id="define-immo_rke_skl_length_byte-4u">define IMMO_RKE_SKL_LENGTH_BYTE            (4u)</h1>
+<p>其他
+所有涉及到硬件的变量应设为动态变量(volatile)。
+如果使用指针，在使用指针之前，必须赋给指针一个地址值。
+【规则解释】一些编译器会在编译时给指针随机赋予一个地址，这就意味着指针可能会指向代码空间。给未初始化的指针赋值，其结果无法预计，而且，可能会带来严重后果。
+函数定义时的参数不应超过7个，如果参数太多可以将多个参数组合成一个结构体。
+软件工程编译后不能有warning。</p>
+<h2 id="_10">规范</h2>
+<h3 id="c_2">标准C环境</h3>
+<h3 id="c_3">标准C环境</h3>
+<h3 id="_11">无用代码</h3>
+<h3 id="_12">注释</h3>
+<h3 id="_13">字符集和词汇转换</h3>
+<h3 id="_14">标识符</h3>
+<h3 id="_15">类型</h3>
+<h3 id="_16">常量</h3>
+<h3 id="_17">定义和声明</h3>
+<h3 id="_18">初始化</h3>
+<h3 id="_19">基本类型</h3>
+<h3 id="_20">指针类型转换</h3>
+<h3 id="_21">表达式</h3>
+<h3 id="_22">副作用</h3>
+<h3 id="_23">控制语句表达式</h3>
+<h3 id="_24">控制流</h3>
+<h3 id="switch">switch语句</h3>
+<h3 id="_25">函数</h3>
+<h3 id="_26">指针和数组</h3>
+<h3 id="_27">空间重叠</h3>
+<h3 id="_28">预处理</h3>
+<h3 id="_29">标准库</h3>
+<h3 id="_30">资源</h3>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="编程规范概述"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" class="btn btn-neutral float-right" title="软件测试概述">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
