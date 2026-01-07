@@ -1,0 +1,12 @@
+site_name: 我的文档站
+nav:
+  - 首页: index.md
+  - 使用指南: guide.md
+theme: readthedocs
+
+# 额外配置
+repo_name: 'Minkelxy/MinkeWiki'
+repo_url: 'https://github.com/Minkelxy/MinkeWiki'
+
+# 如果您计划使用GitHub Pages，则可能需要设置此选项
+# site_url: 'https://your-username.github.io/your-repo-name'
