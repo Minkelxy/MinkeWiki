@@ -5,6 +5,9 @@ on:
     branches:
       - main  # 当推送到main分支时触发工作流
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -31,4 +34,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./site
-        force_orphan: true  # 使用孤立分支作为gh-pages分支
