@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>单元测试学习 - Minke的技术文档库</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u5355\u5143\u6d4b\u8bd5\u5b66\u4e60";
+        var mkdocs_page_input_path = "\u77e5\u8bc6/\u8f6f\u4ef6\u6d4b\u8bd5/\u5355\u5143\u6d4b\u8bd5\u5b66\u4e60.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Minke的技术文档库
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">首页</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../..">欢迎</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">制作项目</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E5%88%B6%E4%BD%9C/%E5%88%B6%E4%BD%9C%E7%9B%AE%E5%BD%95/">制作目录</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">游戏</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E6%B8%B8%E6%88%8F/%E9%80%86%E6%88%98%E6%9C%AA%E6%9D%A5/%E9%80%86%E6%88%98%E6%9C%AA%E6%9D%A5/">逆战未来</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E6%B8%B8%E6%88%8F/%E9%80%86%E6%88%98%E6%9C%AA%E6%9D%A5/%E9%80%86%E6%88%98%E6%9C%AA%E6%9D%A5CMD/">逆战未来CMD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E6%B8%B8%E6%88%8F/%E4%B8%89%E5%9B%BD%E7%BE%A4%E8%8B%B1%E4%BC%A02Re/">三国群英传2Re</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">音乐</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E9%9F%B3%E4%B9%90/%E4%BC%A0%E8%BE%BE%E4%B8%8D%E5%88%B0%E7%9A%84%E7%88%B1%E6%81%8B%E6%94%B9%E7%BC%96/">传达不到的爱恋改编</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">剧本</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E5%89%A7%E6%9C%AC/%E6%81%92%E6%B6%A6%E7%96%97%E5%85%BB%E9%99%A2/">恒润疗养院</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">知识库</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../%E7%9B%AE%E5%BD%95/">知识总览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >电机控制</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/">电机控制概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/FOC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">FOC学习笔记</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/BLDC%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">BLDC代码分析</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/%E7%94%B5%E6%9C%BA%E9%9C%8D%E5%B0%94%E9%A9%B1%E5%8A%A8/">电机霍尔驱动</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >芯片驱动</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/">芯片驱动概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/%E5%BC%80%E8%B7%AF%E8%AF%8A%E6%96%AD/">开路诊断</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD/">故障诊断</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >AUTOSAR</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../AUTOSAR/">AUTOSAR概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../AUTOSAR/AUTOSAR_DIO/">AUTOSAR_DIO</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../AUTOSAR/%E8%BD%AF%E4%BB%B6%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/">软件功能安全学习</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >编程规范</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/">编程规范概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E8%AE%B0%E5%BD%95/">编程规范记录</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >软件测试</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../">软件测试概述</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">单元测试学习</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_2">单元测试介绍</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_3">常见的测试流程</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">测试指标</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tessy">使用 tessy 软件进行测试</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">导入工程</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">创建测试</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">编写用例</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">函数打桩</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">案例分析</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">常见错误</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">对编码的一些影响</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#c">C 语言如何编写利于单元测试的代码</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#c_1">编写利于测试的 C 语言代码</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1. 清晰目的与文档化</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2. 避免或合理使用全局变量</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3">3. 管理寄存器操作</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4">4. 代码结构与设计原则</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#5">5. 测试支持</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >RTOS</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../RTOS/">RTOS概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../RTOS/%E8%87%AA%E5%88%B6RTOS/">自制RTOS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >现场总线</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E7%8E%B0%E5%9C%BA%E6%80%BB%E7%BA%BF/">现场总线概述</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >其他</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E5%85%B6%E4%BB%96/">其他知识概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E5%85%B6%E4%BB%96/%E7%8A%B6%E6%80%81%E6%9C%BA%E5%AD%A6%E4%B9%A0/">状态机学习</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E5%85%B6%E4%BB%96/%E7%BC%A9%E7%95%A5%E8%AF%8D%E6%9F%A5%E8%AF%A2/">缩略词查询</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../%E5%85%B6%E4%BB%96/%E8%BD%AF%E4%BB%B6%E8%AF%A6%E7%BB%86%E6%96%87%E6%A1%A3%E6%92%B0%E5%86%99%E8%84%9A%E6%9C%AC%E8%AE%B0%E5%BD%95/">软件详细文档撰写脚本记录</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Minke的技术文档库</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">知识库</li>
+          <li class="breadcrumb-item">软件测试</li>
+      <li class="breadcrumb-item active">单元测试学习</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Minkelxy/MinkeWiki/edit/master/docs/知识/软件测试/单元测试学习.md">Edit on Minkelxy/MinkeWiki</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">单元测试学习</h1>
+<p>[toc]</p>
+<hr />
+<h2 id="_2">单元测试介绍</h2>
+<h3 id="_3">常见的测试流程</h3>
+<p>常见的单元测试流程通常包含以下几个步骤：</p>
+<ol>
+<li>
+<p><strong>测试计划与设计</strong>：</p>
+</li>
+<li>
+<p><strong>需求分析</strong>：理解待测试代码的功能需求、性能指标、边界条件等。</p>
+</li>
+<li><strong>测试用例设计</strong>：基于需求，编写详细的测试用例，包括输入数据、预期输出、边界条件、异常场景等。确保测试用例覆盖关键路径、边界条件、错误处理路径以及正常工作流。</li>
+<li>
+<p><strong>确定测试策略</strong>：选择自顶向下、自底向上、基于风险等测试方法，规划单元测试与其他测试阶段（如集成测试、系统测试）的关系。</p>
+</li>
+<li>
+<p><strong>编写测试代码</strong>：</p>
+</li>
+<li>
+<p><strong>创建测试环境</strong>：搭建必要的测试框架，如 Google Test、CppUTest 等，配置编译选项和测试运行脚本。</p>
+</li>
+<li><strong>编写测试函数</strong>：为每个测试用例编写独立的测试函数，函数内调用被测代码并使用断言（如<code>assert()</code>或框架提供的断言函数）验证实际结果与预期结果的一致性。</li>
+<li>
+<p><strong>实现模拟对象</strong>（可选）：如果被测代码依赖外部资源，编写模拟对象（stubs 或 mocks）以替换真实依赖，确保测试的隔离性。</p>
+</li>
+<li>
+<p><strong>执行测试</strong>：</p>
+</li>
+<li>
+<p><strong>编译测试代码</strong>：确保测试代码能够成功编译，没有语法或链接错误。</p>
+</li>
+<li><strong>运行测试</strong>：执行测试框架提供的命令或脚本运行所有测试用例。</li>
+<li>
+<p><strong>收集结果</strong>：测试框架自动捕获测试结果，包括通过/失败信息、测试耗时、可能的错误堆栈跟踪等。</p>
+</li>
+<li>
+<p><strong>结果分析与缺陷定位</strong>：</p>
+</li>
+<li>
+<p><strong>评估测试覆盖率</strong>：使用代码覆盖率工具（如 gcov、lcov 等）分析测试用例对源代码的覆盖程度，确保关键路径和边界条件都得到了充分测试。</p>
+</li>
+<li><strong>分析失败原因</strong>：对于失败的测试用例，查阅测试报告、日志或错误堆栈，定位问题所在。可能需要重新审视测试用例设计、检查被测代码逻辑或排查依赖问题。</li>
+<li>
+<p><strong>回归测试</strong>：修复缺陷后，重新运行受影响的测试用例，确保问题已解决且未引入新的故障。</p>
+</li>
+<li>
+<p><strong>测试报告与文档</strong>：</p>
+</li>
+<li>
+<p><strong>生成测试报告</strong>：整理测试结果，生成详细的测试报告，包括总体通过率、失败测试的详细信息、覆盖率统计等。</p>
+</li>
+<li>
+<p><strong>更新相关文档</strong>：根据测试结果更新设计文档、用户手册等项目文档，反映实际实现与预期功能的相符程度，记录测试过程中发现的需求澄清或变更。</p>
+</li>
+<li>
+<p><strong>持续测试与维护</strong>：</p>
+</li>
+<li><strong>代码重构与新增功能测试</strong>：随着代码的重构或新功能的添加，及时更新测试用例，确保测试集的完备性和有效性。</li>
+<li><strong>定期回归测试</strong>：在软件开发周期的不同阶段（如版本迭代、性能优化后）进行回归测试，验证现有功能的稳定性。</li>
+<li><strong>监控测试覆盖率趋势</strong>：长期跟踪代码覆盖率，确保随着项目的演进，测试覆盖度不会下降。</li>
+</ol>
+<h3 id="_4">测试指标</h3>
+<p>单元测试的测试指标主要用于衡量测试的有效性和完整性，以下是几个关键的测试指标：</p>
+<ol>
+<li>
+<p><strong>代码覆盖率</strong>：</p>
+</li>
+<li>
+<p><strong>语句覆盖率</strong>：测量测试用例执行了多少源代码中的可执行语句（如 C 语言中的语句或表达式）。通常要求达到一定比例（如 80%）以确保大部分代码路径得到测试。</p>
+</li>
+<li><strong>分支覆盖率</strong>（或条件覆盖率）：衡量测试用例是否覆盖了程序中每个控制流分支（如 if-else 语句）的取真和取假分支。同样，可能设定一个阈值来确保分支逻辑得到充分验证。</li>
+<li>
+<p><strong>MC/DC 覆盖率</strong>（Modified Condition/Decision Coverage）：对于安全性或可靠性要求极高的系统，可能要求达到更严格的覆盖率标准，MC/DC 确保每个决策条件独立影响决策结果，适用于复杂的逻辑判断。</p>
+</li>
+<li>
+<p><strong>测试用例执行结果</strong>：</p>
+</li>
+<li>
+<p><strong>通过率</strong>：计算通过的测试用例占总测试用例的比例，高通过率通常表明代码基本功能的正确性。</p>
+</li>
+<li><strong>失败率</strong>：记录失败测试用例的数量及其原因，用于定位问题并指导代码修复。</li>
+<li>
+<p><strong>阻塞/未执行</strong>：记录因依赖问题、环境问题等导致无法执行的测试用例。</p>
+</li>
+<li>
+<p><strong>圈复杂度</strong>:</p>
+</li>
+<li>
+<p><strong>圈复杂度</strong>：衡量程序或模块的复杂度，通过计算程序控制流的分支数量来评估程序的测试难度和潜在的错误风险。</p>
+</li>
+<li><strong>计算方法</strong>：通过遍历程序中的每个控制流分支，计算每个分支的入度（入度表示该分支被其他分支依赖的次数），然后求和得到圈复杂度。</li>
+<li><strong>阈值</strong>：根据项目需求，设定一个阈值，如 10、20 等，用于评估圈复杂度是否过高，过高的圈复杂度可能会导致测试难度增加，影响测试效率和覆盖度。</li>
+</ol>
+<h2 id="tessy">使用 tessy 软件进行测试</h2>
+<h3 id="_5">导入工程</h3>
+<h3 id="_6">创建测试</h3>
+<h3 id="_7">编写用例</h3>
+<h3 id="_8">函数打桩</h3>
+<h3 id="_9">案例分析</h3>
+<h3 id="_10">常见错误</h3>
+<h2 id="_11">对编码的一些影响</h2>
+<h3 id="c">C 语言如何编写利于单元测试的代码</h3>
+<p>网上关于如何编写利于测试的代码的例子大都使用面向对象的语言作为实例,虽然 C 语言没有面向对象,但写驱动的时候也经常会写出类似结构的代码,出现的问题也值得推敲.</p>
+<h4 id="_12">清晰目的</h4>
+<p>因为我最初上手是测别人写的代码,对不了解细节的人,单元测试最难的部分还是搞清正确的输入输出关系.即使代码有充分的说明,对于一些分支和数学运算或者具体业务有关的代码,要求一个旁观的人能知道什么样的输出是正确的还是有些强人所难了.
+所以单元测试一般还是会给代码的编写者去做,毕竟作者最懂自己的目的.但如果一定要旁人测试,我思考我自己测试中遇到的问题,其实在一个模块里需要仔细斟酌测试输出的地方并不多,这些函数的特征也都比较明显,如果配以一些说明,不管是对结果的简单描述,还是对可能的测试用例的描述,都可以帮助测试者更好的理解代码.
+退而求其次,也希望函数是包含了注释的,再其次至少也要函数名称能展现他的用途.</p>
+<h4 id="_13">全局变量</h4>
+<p>tessy 提供了很多便利工具,使得一些问题被隐藏.其中最明显的就是全局变量的滥用.tessy 很方便的可以使全局变量作为输入输出,测试的时候不会很麻烦,但也带来一些隐含的问题,一些数组被定义为全局变量,多个模块使用这一数组,而这些数组实际上是常量,这似乎不应该出现,测试时也很不方便,在不通读代码的情况下,你很难确认这样一个数组到底是常量还是变量,输入还是输出.这种情况使用参数形式传入数组或者指针对编写用例的人来说会友好很多,代码结构也更好了,减少这类不必要的全局变量.</p>
+<h4 id="_14">寄存器操作</h4>
+<h4 id="_15">文件层次</h4>
+<h4 id="_16"></h4>
+<p>https://cloud.tencent.com/developer/article/2383272
+https://www.jianshu.com/p/b2c35b0ffb5e</p>
+<h2 id="c_1">编写利于测试的 C 语言代码</h2>
+<h3 id="1">1. <strong>清晰目的与文档化</strong></h3>
+<h4 id="a">a. <strong>明确注释与函数说明</strong></h4>
+<ul>
+<li><strong>函数注释</strong>：每个函数应附有详细的注释，说明其功能、输入参数、返回值、行为边界条件（正常情况、异常情况等）、可能触发的错误码（如有）。这有助于测试人员快速理解函数意图，设计合适的测试用例。</li>
+</ul>
+<p>示例：</p>
+<p><code>c
+  /**
+   * 计算两个整数的和。
+   *
+   * @param a 第一个加数
+   * @param b 第二个加数
+   * @return 两数之和。如果输入值超出了int类型的最大值，返回INT_MAX。
+   */
+  int add(int a, int b);</code></p>
+<ul>
+<li>
+<p><strong>模块或文件注释</strong>：对于包含多个相关函数的源文件，提供总体描述，概述其主要功能、内部数据结构、依赖关系及外部接口等。</p>
+</li>
+<li>
+<p><strong>内联文档</strong>：在代码关键位置（如复杂算法、条件判断、循环等）添加内联注释，解释其逻辑和目的，便于测试人员定位和理解潜在的测试点。</p>
+</li>
+</ul>
+<h4 id="b">b. <strong>测试用例描述或示例</strong></h4>
+<ul>
+<li>
+<p><strong>编写测试用例指南</strong>：为重要或复杂的函数编写一份测试用例指南，列举预期的典型输入、预期输出、边界条件以及可能触发的异常情况。这可以作为测试人员编写测试脚本的参考。</p>
+</li>
+<li>
+<p><strong>代码示例</strong>：在函数文档中提供简短的代码片段，演示如何正确调用该函数以及处理返回值。这有助于直观展示函数的使用方式和预期行为。</p>
+</li>
+</ul>
+<h3 id="2">2. <strong>避免或合理使用全局变量</strong></h3>
+<h4 id="a_1">a. <strong>减少全局变量的使用</strong></h4>
+<ul>
+<li>
+<p><strong>参数化</strong>：将原本作为全局变量使用的常量数据或状态信息作为函数参数传递，明确数据依赖关系，使测试更易于模拟各种输入条件。</p>
+</li>
+<li>
+<p><strong>封装与隐藏</strong>：对于确实需要全局共享的数据，使用静态全局变量或<code>extern</code>关键字声明的外部变量，同时将其置于单独的头文件中，并通过函数接口访问。这样既能控制全局变量的可见性，也能降低耦合度，便于测试。</p>
+</li>
+</ul>
+<h4 id="b_1">b. <strong>明确全局变量性质</strong></h4>
+<ul>
+<li>
+<p><strong>常量声明</strong>：使用<code>const</code>关键字声明真正的常量全局变量，表明其不可变性，方便测试人员识别并避免尝试修改。</p>
+</li>
+<li>
+<p><strong>命名规范</strong>：全局变量应遵循一致且具有描述性的命名规则，如前缀<code>g_</code>、全大写等，以区别于局部变量，同时在注释中注明其用途和更新策略。</p>
+</li>
+</ul>
+<h3 id="3">3. <strong>管理寄存器操作</strong></h3>
+<h4 id="a_2">a. <strong>封装硬件交互</strong></h4>
+<ul>
+<li><strong>硬件抽象层（HAL）</strong>：对于直接涉及寄存器操作的底层代码，设计硬件抽象层接口，将具体的寄存器访问、配置操作封装在内。测试时，可以 mock 或 stub 这些接口，以便隔离硬件影响，专注于软件逻辑测试。</li>
+</ul>
+<h4 id="b_2">b. <strong>文档化硬件交互</strong></h4>
+<ul>
+<li>
+<p><strong>硬件手册引用</strong>：在涉及寄存器操作的函数或模块注释中，引用相关的硬件手册或数据表页码，方便测试人员查阅硬件特性和操作规则。</p>
+</li>
+<li>
+<p><strong>寄存器操作注释</strong>：对于关键的寄存器读写操作，添加注释描述操作的目的、影响的硬件状态以及与上下文的关系，帮助测试人员理解其在系统中的角色。</p>
+</li>
+</ul>
+<h3 id="4">4. <strong>代码结构与设计原则</strong></h3>
+<h4 id="a_3">a. <strong>模块化与高内聚低耦合</strong></h4>
+<ul>
+<li>
+<p><strong>函数单一职责</strong>：确保每个函数只负责一项具体任务，避免函数过于庞大和复杂，使得测试能够聚焦于单个功能点。</p>
+</li>
+<li>
+<p><strong>分层设计</strong>：按照功能或责任划分代码层次，如应用层、业务逻辑层、驱动层等。测试时，可以逐层进行，先验证底层驱动的正确性，再逐步向上测试高层逻辑。</p>
+</li>
+</ul>
+<h4 id="b_3">b. <strong>接口设计</strong></h4>
+<ul>
+<li>
+<p><strong>错误处理</strong>：设计统一的错误返回机制（如返回码、异常抛出等），确保函数在遇到错误时能够明确告知调用者。测试时，需覆盖各类错误场景。</p>
+</li>
+<li>
+<p><strong>边界条件测试</strong>：特别关注函数处理边界条件的能力，如空指针检查、溢出预防、空数组处理等。在函数文档中明确指出这些边界条件及其预期处理方式。</p>
+</li>
+</ul>
+<h3 id="5">5. <strong>测试支持</strong></h3>
+<h4 id="a_4">a. <strong>提供测试框架或辅助函数</strong></h4>
+<ul>
+<li>
+<p><strong>测试宏</strong>：定义用于辅助测试的宏，如断言宏、打印调试信息宏等，简化测试代码编写。</p>
+</li>
+<li>
+<p><strong>测试模式开关</strong>：在代码中引入测试模式标志，允许在测试时启用额外的日志记录、数据校验等功能，而在生产环境中关闭，不影响性能。</p>
+</li>
+</ul>
+<h4 id="b_4">b. <strong>持续集成与自动化测试</strong></h4>
+<ul>
+<li>
+<p><strong>编写测试脚本</strong>：为项目配备单元测试、集成测试等自动化测试脚本，并纳入持续集成流程，确保每次代码提交都能及时得到测试反馈。</p>
+</li>
+<li>
+<p><strong>代码覆盖率分析</strong>：利用工具（如 gcov、lcov 等）进行代码覆盖率分析，确保测试用例覆盖到关键路径和分支逻辑，提高测试完整性。</p>
+</li>
+</ul>
+<p>通过遵循上述建议，可以显著提升 C 语言代码的可测试性，使测试工作更加高效、准确，同时也促进了代码的可读性、可维护性和健壮性。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="软件测试概述"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../RTOS/" class="btn btn-neutral float-right" title="RTOS概述">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Minkelxy/MinkeWiki" class="fa fa-code-fork" style="color: #fcfcfc"> Minkelxy/MinkeWiki</a>
+        </span>
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../RTOS/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

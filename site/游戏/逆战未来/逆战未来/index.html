@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>逆战未来 - Minke的技术文档库</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u9006\u6218\u672a\u6765";
+        var mkdocs_page_input_path = "\u6e38\u620f/\u9006\u6218\u672a\u6765/\u9006\u6218\u672a\u6765.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Minke的技术文档库
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">首页</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../..">欢迎</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">制作项目</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E5%88%B6%E4%BD%9C/%E5%88%B6%E4%BD%9C%E7%9B%AE%E5%BD%95/">制作目录</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">游戏</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">逆战未来</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">项目概述</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">系统架构</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">核心组件</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-minke-">1. Minke - 硬件执行引擎</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-nzm_cmd-">2. NZM_CMD - 策略执行框架</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-minkes-indexed-nizhan-keypoint-environment-">3. MINKE's Indexed NiZhan Keypoint Environment - 地图数据化引擎</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">工作流程</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">标准自动化流程</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">游戏配置要求</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">开发路线图</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#20262">✅ 已完成（2026年2月）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">🚧 开发计划</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">🔮 远期规划</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_11">快速开始</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">硬件准备</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">环境配置</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#minke">烧录 Minke 固件</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#nzm_cmd">编译 NZM_CMD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">运行地图编辑器</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_15">项目仓库</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_16">相关链接</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../%E9%80%86%E6%88%98%E6%9C%AA%E6%9D%A5CMD/">逆战未来CMD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../%E4%B8%89%E5%9B%BD%E7%BE%A4%E8%8B%B1%E4%BC%A02Re/">三国群英传2Re</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">音乐</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E9%9F%B3%E4%B9%90/%E4%BC%A0%E8%BE%BE%E4%B8%8D%E5%88%B0%E7%9A%84%E7%88%B1%E6%81%8B%E6%94%B9%E7%BC%96/">传达不到的爱恋改编</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">剧本</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E5%89%A7%E6%9C%AC/%E6%81%92%E6%B6%A6%E7%96%97%E5%85%BB%E9%99%A2/">恒润疗养院</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">知识库</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E7%9B%AE%E5%BD%95/">知识总览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >电机控制</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/">电机控制概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/FOC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">FOC学习笔记</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/BLDC%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">BLDC代码分析</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/%E7%94%B5%E6%9C%BA%E9%9C%8D%E5%B0%94%E9%A9%B1%E5%8A%A8/">电机霍尔驱动</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >芯片驱动</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/">芯片驱动概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/%E5%BC%80%E8%B7%AF%E8%AF%8A%E6%96%AD/">开路诊断</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E8%8A%AF%E7%89%87%E9%A9%B1%E5%8A%A8/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD/">故障诊断</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >AUTOSAR</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/AUTOSAR/">AUTOSAR概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/AUTOSAR/AUTOSAR_DIO/">AUTOSAR_DIO</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/AUTOSAR/%E8%BD%AF%E4%BB%B6%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/">软件功能安全学习</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >编程规范</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/">编程规范概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E8%AE%B0%E5%BD%95/">编程规范记录</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >软件测试</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0/">单元测试学习</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >RTOS</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/RTOS/">RTOS概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/RTOS/%E8%87%AA%E5%88%B6RTOS/">自制RTOS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >现场总线</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E7%8E%B0%E5%9C%BA%E6%80%BB%E7%BA%BF/">现场总线概述</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >其他</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E5%85%B6%E4%BB%96/">其他知识概述</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E5%85%B6%E4%BB%96/%E7%8A%B6%E6%80%81%E6%9C%BA%E5%AD%A6%E4%B9%A0/">状态机学习</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E5%85%B6%E4%BB%96/%E7%BC%A9%E7%95%A5%E8%AF%8D%E6%9F%A5%E8%AF%A2/">缩略词查询</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../%E7%9F%A5%E8%AF%86/%E5%85%B6%E4%BB%96/%E8%BD%AF%E4%BB%B6%E8%AF%A6%E7%BB%86%E6%96%87%E6%A1%A3%E6%92%B0%E5%86%99%E8%84%9A%E6%9C%AC%E8%AE%B0%E5%BD%95/">软件详细文档撰写脚本记录</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Minke的技术文档库</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">游戏</li>
+      <li class="breadcrumb-item active">逆战未来</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Minkelxy/MinkeWiki/edit/master/docs/游戏/逆战未来/逆战未来.md">Edit on Minkelxy/MinkeWiki</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">逆战未来硬件计划</h1>
+<h2 id="_2">项目概述</h2>
+<p>本项目是为《逆战：未来》游戏打造的完整硬件自动化解决方案，采用<strong>三层架构设计</strong>：</p>
+<ol>
+<li><strong>Minke</strong> - 硬件执行层（ESP32-S3）</li>
+<li><strong>NZM_CMD</strong> - 策略执行层（Rust）</li>
+<li><strong>MINKE's Indexed NiZhan Keypoint Environment</strong> - 数据生成层（Rust + egui）</li>
+</ol>
+<p>通过硬件级隔离与计算机视觉相结合，实现安全、稳定、拟人化的游戏自动化体验。</p>
+<hr />
+<h2 id="_3">系统架构</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                     受控端 (游戏电脑)                         │
+│  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐ │
+│  │   游戏程序    │ ←── │  OS HID驱动  │ ←── │  USB 物理接口 │ │
+│  └──────────────┘     └──────────────┘     └──────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+                              ↑ USB HID
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│                   控制端 (Minke 硬件)                         │
+│  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐ │
+│  │ UART 解析器  │ ←── │  HID 任务队列 │ ←── │  TinyUSB栈   │ │
+│  └──────────────┘     └──────────────┘     └──────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+                              ↑ UART
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│              策略执行端 (NZM_CMD - Rust)                     │
+│  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐ │
+│  │  拟人算法层  │     │  导航引擎    │     │  业务逻辑层  │ │
+│  │ 贝塞尔曲线   │     │  OCR识别     │     │  塔防/日活   │ │
+│  └──────────────┘     └──────────────┘     └──────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+                              ↑ JSON数据
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│         数据生成端 (MINKE Keypoint Environment)              │
+│  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐ │
+│  │  地图编辑器  │     │  地形绘制    │     │  数据导出    │ │
+│  │  可视化界面  │     │  高度映射    │     │  JSON生成    │ │
+│  └──────────────┘     └──────────────┘     └──────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+<hr />
+<h2 id="_4">核心组件</h2>
+<h3 id="1-minke-">1. Minke - 硬件执行引擎</h3>
+<p><strong>定位</strong>：基于 ESP32-S3 的微型自动化引擎</p>
+<p><strong>核心特性</strong>：
+- 🛡️ <strong>硬件级隐蔽性</strong>：USB HID 协议伪装，目标电脑识别为标准键鼠设备
+- 🤖 <strong>极致拟人算法</strong>：
+  - 贝塞尔曲线鼠标轨迹
+  - 基于菲茨定律的动态变速
+  - 微观抖动与过冲修正
+  - 高斯分布随机延迟
+- 🖱️ <strong>双模鼠标引擎</strong>：
+  - 相对模式：FPS 游戏视角控制
+  - 绝对模式：MOBA/桌面自动化</p>
+<p><strong>通信协议</strong>（11字节定长帧）：</p>
+<table>
+<thead>
+<tr>
+<th>字节</th>
+<th>含义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Header</td>
+<td>固定 0xAA</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Type</td>
+<td>0x01=键盘, 0x02=相对鼠标, 0x03=绝对鼠标</td>
+</tr>
+<tr>
+<td>2-7</td>
+<td>Args</td>
+<td>参数（键码、坐标、位移等）</td>
+</tr>
+<tr>
+<td>8-9</td>
+<td>Delay</td>
+<td>延迟时间（ms）</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Tail</td>
+<td>固定 0x55</td>
+</tr>
+</tbody>
+</table>
+<p><strong>输入事件结构</strong>：</p>
+<pre><code class="language-c">typedef struct {
+    uint16_t delay_ms;   // 与上一个事件的间隔（0～65535 ms，约18秒）
+    uint8_t  type;       // 操作类型（见下表）
+    uint8_t  code;       // 键码或鼠标按钮（如 VK_A=0x41, MOUSE_LEFT=0x01）
+    int16_t  dx;         // 鼠标X相对位移（-128～127）
+    int16_t  dy;         // 鼠标Y相对位移
+} InputEvent;
+</code></pre>
+<p><strong>操作类型定义</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>说明</th>
+<th>Code 含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>键盘按下</td>
+<td>虚拟键码（VK_A=0x41）</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>键盘释放</td>
+<td>虚拟键码</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>鼠标按下</td>
+<td>MOUSE_LEFT=0x01, RIGHT=0x02, MIDDLE=0x04</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>鼠标释放</td>
+<td>按钮代码</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>鼠标移动</td>
+<td>dx/dy 为相对位移</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>鼠标滚轮</td>
+<td>dx 为滚轮值</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-nzm_cmd-">2. NZM_CMD - 策略执行框架</h3>
+<p><strong>定位</strong>：《逆战：未来》自动化执行终端与辅助框架</p>
+<p><strong>核心特性</strong>：
+- ⚙️ <strong>双模驱动架构</strong>：支持硬件串口与软件模拟热切换
+- 🧠 <strong>计算机视觉</strong>：基于 Windows OCR 的场景识别与状态判断
+- 🗺️ <strong>智能导航</strong>：NavEngine 基于 TOML 配置的动态路由分发
+- 🏰 <strong>塔防业务</strong>：JSON 定义建造/升级/拆除序列，坐标自动修正
+- 📅 <strong>日活业务</strong>：每日任务自动识别、刷新、领奖及弹窗跳过</p>
+<p><strong>已完成功能</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>特性</th>
+<th>完成时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心驱动</td>
+<td>双模架构、CLI 参数控制</td>
+<td>2026-02-04</td>
+</tr>
+<tr>
+<td>拟人算法</td>
+<td>贝塞尔曲线、高斯分布、微颤</td>
+<td>2026-02-05</td>
+</tr>
+<tr>
+<td>智能导航</td>
+<td>NavEngine、OCR 识别、动态路由</td>
+<td>2026-02-07</td>
+</tr>
+<tr>
+<td>塔防业务</td>
+<td>策略引擎、双击防漏</td>
+<td>2026-02-08</td>
+</tr>
+<tr>
+<td>日活业务</td>
+<td>任务闭环、弹窗跳过</td>
+<td>2026-02-09</td>
+</tr>
+</tbody>
+</table>
+<p><strong>命令行参数</strong>：</p>
+<pre><code class="language-bash"># 使用软件模拟
+cargo run --release -- -p SOFT -t &quot;赛季任务&quot;
+
+# 使用硬件串口
+cargo run --release -- -p COM3 -t &quot;空间站普通&quot;
+</code></pre>
+<hr />
+<h3 id="3-minkes-indexed-nizhan-keypoint-environment-">3. MINKE's Indexed NiZhan Keypoint Environment - 地图数据化引擎</h3>
+<p><strong>定位</strong>：次世代地图数据化工具，将游戏截图转化为机器可读的纯数字环境数据</p>
+<p><strong>核心特性</strong>：
+- 🗺️ <strong>图物分离架构</strong>：静态地形与动态建筑解耦
+- 🎯 <strong>浮点数级校准</strong>：Float32 精度，根除分辨率变化误差
+- 🔍 <strong>无限工作台</strong>：平滑拖拽、无损缩放（10% - 1000%）
+- ⛰️ <strong>高度映射笔刷</strong>：五色笔刷绘制三维地形信息</p>
+<p><strong>地形颜色编码</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>ID</th>
+<th>含义</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 红色</td>
+<td>-1</td>
+<td>障碍物</td>
+<td>寻路强制避开</td>
+</tr>
+<tr>
+<td>🟢 绿色</td>
+<td>0</td>
+<td>基础平地</td>
+<td>默认可放置陷阱</td>
+</tr>
+<tr>
+<td>🟡 黄色</td>
+<td>1</td>
+<td>一级高台</td>
+<td>矮墙/低高台</td>
+</tr>
+<tr>
+<td>🔵 蓝色</td>
+<td>2</td>
+<td>二级高台</td>
+<td>标准墙面/中等高度</td>
+</tr>
+<tr>
+<td>🟣 紫色</td>
+<td>3</td>
+<td>三级高台</td>
+<td>天花板/防空位置</td>
+</tr>
+</tbody>
+</table>
+<p><strong>输出数据格式</strong>：</p>
+<pre><code class="language-json">{
+  &quot;map_name&quot;: &quot;Ni-Zhan_Exported_Map&quot;,
+  &quot;meta&quot;: {
+    &quot;grid_pixel_size&quot;: 32.5,
+    &quot;offset_x&quot;: 12.0,
+    &quot;offset_y&quot;: 5.0
+  },
+  &quot;layers&quot;: [
+    {
+      &quot;major_z&quot;: 0,
+      &quot;name&quot;: &quot;Major_Layer_0&quot;,
+      &quot;elevation_grid&quot;: [
+        [0, 0, -1, -1],
+        [0, 1,  1, -1]
+      ]
+    }
+  ]
+}
+</code></pre>
+<hr />
+<h2 id="_5">工作流程</h2>
+<h3 id="_6">标准自动化流程</h3>
+<pre><code>1. 数据准备阶段
+   └─&gt; 在 MINKE Keypoint Environment 中
+       └─&gt; 加载游戏截图 (1.png)
+       └─&gt; 网格校准（Grid Size、Origin、Rows/Cols）
+       └─&gt; 地形绘制（五色笔刷标记）
+       └─&gt; 导出 minke_map_data.json
+
+2. 策略配置阶段
+   └─&gt; 在 MINKE 中
+       └─&gt; 加载地图数据
+       └─&gt; 绘制陷阱布局
+       └─&gt; 定义建造/升级/拆除序列
+       └─&gt; 导出 strategy.json
+
+3. 执行运行阶段
+   └─&gt; 将 JSON 文件放入 NZM_CMD 目录
+   └─&gt; 连接 Minke 硬件（USB OTG + UART）
+   └─&gt; 启动 NZM_CMD
+       └─&gt; OCR 识别游戏状态
+       └─&gt; 生成拟人化操作序列
+       └─&gt; 通过 UART 发送给 Minke
+       └─&gt; Minke 执行物理键鼠操作
+</code></pre>
+<hr />
+<h2 id="_7">游戏配置要求</h2>
+<p>为确保 CV 识别准确，游戏必须设置为：</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>推荐值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>显示模式</td>
+<td>无边框全屏</td>
+<td>Borderless Windowed</td>
+</tr>
+<tr>
+<td>分辨率</td>
+<td>1920x1080</td>
+<td>固定分辨率</td>
+</tr>
+<tr>
+<td>帧率限制</td>
+<td>60 FPS</td>
+<td>必须锁定，包括大厅和局内</td>
+</tr>
+<tr>
+<td>画质设置</td>
+<td>低/中</td>
+<td>关闭动态模糊和光影特效</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8">开发路线图</h2>
+<h3 id="20262">✅ 已完成（2026年2月）</h3>
+<ul>
+<li>[x] Minke 硬件驱动（ESP32-S3 + TinyUSB）</li>
+<li>[x] 双模驱动架构（硬件/软件切换）</li>
+<li>[x] 拟人化算法（贝塞尔曲线、抖动、过冲）</li>
+<li>[x] NavEngine 导航引擎</li>
+<li>[x] Windows OCR 集成</li>
+<li>[x] 塔防策略引擎</li>
+<li>[x] 日活任务自动化</li>
+<li>[x] 地图数据化引擎</li>
+</ul>
+<h3 id="_9">🚧 开发计划</h3>
+<ul>
+<li>[ ] <strong>配置工具链</strong>（2026年2月下旬）</li>
+<li>完善 tool/ 目录下的可视化工具</li>
+<li>支持直接生成 ui_map.toml 锚点数据</li>
+</ul>
+<h3 id="_10">🔮 远期规划</h3>
+<ul>
+<li>[ ] <strong>全链路无人值守</strong></li>
+<li>
+<p>启动游戏 → 自动登录 → 选区进入 → 执行任务 → 退出游戏</p>
+</li>
+<li>
+<p>[ ] <strong>事件调度系统</strong></p>
+</li>
+<li>支持 Cron 表达式风格的定时任务</li>
+<li>
+<p>示例：每天凌晨 3 点自动刷首胜</p>
+</li>
+<li>
+<p>[ ] <strong>云端策略库</strong></p>
+</li>
+<li>从远程服务器拉取最新的 ui_map.toml 和 strategy.json</li>
+<li>应对游戏热更新</li>
+</ul>
+<hr />
+<h2 id="_11">快速开始</h2>
+<h3 id="_12">硬件准备</h3>
+<ol>
+<li><strong>ESP32-S3 开发板</strong>（必须支持 USB OTG）</li>
+<li><strong>两条 USB 线</strong>：</li>
+<li>USB OTG 口：连接受控电脑（模拟键鼠）</li>
+<li>UART/Debug 口：连接控制电脑（发送指令）</li>
+</ol>
+<h3 id="_13">环境配置</h3>
+<pre><code class="language-bash"># 1. 安装 Rust 工具链
+# 访问 https://rustup.rs/
+
+# 2. 安装 Python 3.8+
+pip install pyserial pyautogui pynput
+
+# 3. 安装 ESP-IDF v5.0+
+# 访问 https://docs.espressif.com/projects/esp-idf/
+</code></pre>
+<h3 id="minke">烧录 Minke 固件</h3>
+<pre><code class="language-bash">cd Minke
+idf.py set-target esp32s3
+idf.py build flash -p COM3 monitor
+</code></pre>
+<h3 id="nzm_cmd">编译 NZM_CMD</h3>
+<pre><code class="language-bash">cd NZM_CMD
+cargo build --release
+</code></pre>
+<h3 id="_14">运行地图编辑器</h3>
+<pre><code class="language-bash">cd MINKE-s-Indexed-NiZhan-Keypoint-Environment
+cargo run --release
+</code></pre>
+<hr />
+<h2 id="_15">项目仓库</h2>
+<ul>
+<li>🐋 <strong>Minke</strong>: <a href="https://github.com/Minkelxy/Minke">https://github.com/Minkelxy/Minke</a></li>
+<li>⚙️ <strong>NZM_CMD</strong>: <a href="https://github.com/Minkelxy/NZM_CMD">https://github.com/Minkelxy/NZM_CMD</a></li>
+<li>🗺️ <strong>MINKE Keypoint Environment</strong>: <a href="https://github.com/Minkelxy/MINKE-s-Indexed-NiZhan-Keypoint-Environment">https://github.com/Minkelxy/MINKE-s-Indexed-NiZhan-Keypoint-Environment</a></li>
+</ul>
+<hr />
+<h2 id="_16">相关链接</h2>
+<ul>
+<li><a href="../../../">返回首页</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../../%E5%88%B6%E4%BD%9C/%E5%88%B6%E4%BD%9C%E7%9B%AE%E5%BD%95/" class="btn btn-neutral float-left" title="制作目录"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../%E9%80%86%E6%88%98%E6%9C%AA%E6%9D%A5CMD/" class="btn btn-neutral float-right" title="逆战未来CMD">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Minkelxy/MinkeWiki" class="fa fa-code-fork" style="color: #fcfcfc"> Minkelxy/MinkeWiki</a>
+        </span>
+    
+    
+      <span><a href="../../../%E5%88%B6%E4%BD%9C/%E5%88%B6%E4%BD%9C%E7%9B%AE%E5%BD%95/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../%E9%80%86%E6%88%98%E6%9C%AA%E6%9D%A5CMD/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
