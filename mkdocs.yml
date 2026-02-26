@@ -4,6 +4,8 @@ nav:
     - 欢迎: index.md
   - 制作项目:
     - 制作目录: 制作/制作目录.md
+    - 温室监测: 制作/温室监测.md
+    - 农田土壤监测: 制作/农田土壤监测.md
   - 游戏:
     - 逆战未来: 游戏/逆战未来/逆战未来.md
     - 逆战未来CMD: 游戏/逆战未来/逆战未来CMD.md
@@ -12,6 +14,9 @@ nav:
     - 传达不到的爱恋改编: 音乐/传达不到的爱恋改编.md
   - 剧本:
     - 恒润疗养院: 剧本/恒润疗养院.md
+  - 农业:
+    - 农业目录: 农业/目录.md
+    - 宁夏银川农业项目考察与分析: 农业/宁夏银川农业项目考察与分析.md
   - 知识库:
     - 知识总览: 知识/目录.md
     - 电机控制:
@@ -44,8 +49,85 @@ nav:
       - 缩略词查询: 知识/其他/缩略词查询.md
       - 软件详细文档撰写脚本记录: 知识/其他/软件详细文档撰写脚本记录.md
 
-theme: readthedocs
+theme:
+  name: readthedocs
+  language: zh
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: 切换到暗色模式
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: 切换到亮色模式
+
+# 插件配置
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+      separator: '[\s\-\.]+'
+  - minify:
+      minify_html: true
+
+# Markdown扩展
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - attr_list
+  - md_in_html
 
 # 额外配置
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Minkelxy/MinkeWiki
+      name: GitHub仓库
+  analytics:
+    feedback:
+      title: 此页面是否有帮助？
+      ratings:
+        - icon: material/thumb-up-outline
+          name: 有帮助
+          data: 1
+          note: 感谢您的反馈！
+        - icon: material/thumb-down-outline
+          name: 没有帮助
+          data: 0
+          note: 感谢您的反馈，我们会继续改进！
+
+# 仓库配置
 repo_name: 'Minkelxy/MinkeWiki'
 repo_url: 'https://github.com/Minkelxy/MinkeWiki'
+
+# 网站配置
+site_url: 'https://minkelxy.github.io/MinkeWiki/'
+site_description: 'Minke的技术文档库 - 嵌入式开发、电机控制、AUTOSAR、游戏自动化等领域的技术文档'
+site_author: 'Minke'
