@@ -2,6 +2,8 @@
 
 MCAL（Microcontroller Abstraction Layer）开发配置指南，基于 Infineon TC3xx（TC377）平台和 Elektrobit EB-tresos 工具。
 
+> 📝 **博客版**：如果你更想看叙事风格的精简版，见 [TC3xx EB-tresos MCAL 配置全流程](../../blog/2026/05/06/mcal-config-guide.md)
+
 > **MCAL 简介**：MCAL 是 AUTOSAR 架构中的微控制器抽象层，位于硬件之上、ECU 抽象层之下。它提供标准化的驱动接口，使上层软件与具体芯片解耦。MCAL 模块包括 MCU、DIO、PORT、ADC、PWM、ICU、SPI、CAN、LIN 等，每个模块对应芯片的一个外设功能域。
 >
 > **EB-tresos** 是 Elektrobit 提供的 AUTOSAR 配置工具，用于可视化配置 MCAL 模块并生成 ARXML 配置文件，然后导入 Davinci 等工具进行代码生成。
