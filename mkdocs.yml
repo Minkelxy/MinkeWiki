@@ -73,12 +73,16 @@ nav:
       - AUTOSAR概述: 知识/AUTOSAR/README.md
       - AUTOSAR_DIO: 知识/AUTOSAR/AUTOSAR_DIO.md
       - 软件功能安全学习: 知识/AUTOSAR/软件功能安全学习.md
+      - MCAL开发配置指南: 知识/AUTOSAR/MCAL开发配置指南.md
+      - AUTOSAR OS配置指南: 知识/AUTOSAR/AUTOSAR_OS配置指南.md
     - 编程规范:
       - 编程规范概述: 知识/编程规范/README.md
       - 编程规范记录: 知识/编程规范/编程规范记录.md
     - 软件测试:
       - 软件测试概述: 知识/软件测试/README.md
       - 单元测试学习: 知识/软件测试/单元测试学习.md
+      - Tessy使用指南: 知识/软件测试/Tessy使用指南.md
+      - Polyspace使用指南: 知识/软件测试/Polyspace使用指南.md
     - RTOS:
       - RTOS概述: 知识/RTOS/README.md
       - 自制RTOS: 知识/RTOS/自制RTOS.md
