@@ -2,6 +2,8 @@
 
 AUTOSAR OS 操作系统配置指南，涵盖 Task、ISR、Counter、Alarm、Schedule Table、Event、Resource 等核心模块。
 
+> 📝 **博客版**：叙事风格的模块关系梳理见 [AUTOSAR OS 核心概念](../../blog/2026/05/06/autosar-os-core-concepts.md)
+
 > **参考规范**：AUTOSAR_SWS_OS
 > **OSEK OS 基础**：AUTOSAR OS 基于 OSEK/VDX OS 标准扩展而来，向下兼容 OSEK OS。OSEK 定义了 4 种一致性类（BCC1/BCC2/ECC1/ECC2），AUTOSAR 在此基础上增加了多核支持、调度表、时间保护等特性。
 > **可扩展性等级**：AUTOSAR OS 定义了 SC1-SC4 四个可扩展性等级 — SC1 为基础功能，SC2 增加调度表，SC3 增加时间保护，SC4 增加内存保护和应用间通信。实际项目根据功能安全等级选择合适的 SC 等级。

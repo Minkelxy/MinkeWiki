@@ -2,6 +2,8 @@
 
 Polyspace 基于抽象解释原理的代码级静态分析和验证工具，包含 Bug Finder 和 Code Prover 两大模块。
 
+> 📝 **博客版**：实战视角见 [代码静态分析实战](../../blog/2026/05/06/polyspace-static-analysis.md)
+
 > **Bug Finder**：使用语义分析查找运行时错误、并发问题、安全漏洞等。
 > **Code Prover**：使用抽象解释法证明源码不存在溢出、除零、数组越界等运行时错误。
 
