@@ -1,7 +1,8 @@
 site_name: Minke的技术文档库
 nav:
-  - 首页: 
+  - 首页:
     - 欢迎: index.md
+    - 标签: tags.md
   - 制作项目:
     - 制作目录: 制作/制作目录.md
     - 温室监测: 制作/温室监测.md
@@ -135,6 +136,19 @@ plugins:
         - zh
         - en
       separator: '[\s\-\.]+'
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: date
+      locale: zh
+  - tags
+  - redirects:
+      redirect_maps:
+        '找对象/找对象目录.md': '社交/社交目录.md'
+        '找对象/自我分析与定位.md': '社交/自我分析与定位.md'
+        '找对象/形象建设与管理.md': '社交/形象建设与管理.md'
+        '找对象/社交渠道与方法.md': '社交/社交渠道与方法.md'
+        '找对象/行动规划与执行.md': '社交/行动规划与执行.md'
+        '找对象/朋友记录与评估.md': '社交/朋友记录与评估.md'
   - minify:
       minify_html: true
 
