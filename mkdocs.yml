@@ -3,6 +3,8 @@ nav:
   - 首页:
     - 欢迎: index.md
     - 标签: tags.md
+  - 博客:
+    - blog/index.md
   - 制作项目:
     - 制作目录: 制作/制作目录.md
     - 温室监测: 制作/温室监测.md
@@ -149,6 +151,18 @@ plugins:
         '找对象/社交渠道与方法.md': '社交/社交渠道与方法.md'
         '找对象/行动规划与执行.md': '社交/行动规划与执行.md'
         '找对象/朋友记录与评估.md': '社交/朋友记录与评估.md'
+  - blog:
+      blog_dir: blog
+      archive: true
+      archive_name: 归档
+      categories: true
+      categories_name: 分类
+      authors: true
+      pagination: true
+      pagination_per_page: 10
+      post_readtime: true
+      post_readtime_words_per_minute: 200
+      authors_file: "{blog}/.authors.yml"
   - minify:
       minify_html: true
 
