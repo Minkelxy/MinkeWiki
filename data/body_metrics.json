@@ -1,0 +1,18 @@
+[
+  {
+    "id": "d39c5b75",
+    "date": "2026-06-24",
+    "waist": 89.0,
+    "arm": 33.0,
+    "weight": 79.8,
+    "systolic_bp": 140,
+    "diastolic_bp": 80,
+    "bench_press": 40.0,
+    "squat": null,
+    "deadlift": null,
+    "pull_ups": 7,
+    "grip_strength": 49.1,
+    "plank": 60,
+    "notes": ""
+  }
+]

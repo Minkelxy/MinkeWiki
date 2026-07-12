@@ -1,0 +1,21 @@
+[
+  {
+    "id": "4a3e487b",
+    "date": "2026-06-22",
+    "training_day": "B",
+    "exercises": [
+      {
+        "name": "引体向上",
+        "sets": null,
+        "reps": "",
+        "weight": "",
+        "rpe": "",
+        "notes": ""
+      }
+    ],
+    "feeling": 9,
+    "cardio_type": "",
+    "cardio_duration": null,
+    "notes": ""
+  }
+]

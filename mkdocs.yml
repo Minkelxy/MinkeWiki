@@ -36,12 +36,12 @@ nav:
   - 剧本:
     - 恒润疗养院: 剧本/恒润疗养院.md
   - 社交:
-    - 社交目录: 社交/社交目录.md
-    - 自我分析与定位: 社交/自我分析与定位.md
-    - 形象与资料: 社交/形象与资料.md
-    - 社交实战手册: 社交/社交实战手册.md
-    - 行动规划与执行: 社交/行动规划与执行.md
     - 朋友记录与评估: 社交/朋友记录与评估.md
+    - 第0段记录: 社交/第0段记录.md
+    - 学习笔记: 社交/学习笔记.md
+    - 画像: 社交/画像.md
+  - 行动记录:
+    - 银川出行记录: 行动记录/银川0704.md
   - 创业:
     - 创业目录: 创业/目录.md
     - 农业信息:
@@ -98,10 +98,9 @@ nav:
       - 软件详细文档撰写脚本记录: 知识/其他/软件详细文档撰写脚本记录.md
   - 健身:
     - 健身首页: 健身/README.md
-    - 健身记录表: 健身/健身数据/健身记录表.md
+    - 训练记录: 健身/健身数据/训练记录.md
     - 身体指标追踪: 健身/健身数据/身体指标追踪.md
     - 周训练计划: 健身/健身计划/周训练计划.md
-    - 年度健身计划: 健身/健身计划/年度健身计划.md
     - 照片记录索引: 健身/成果照片/照片记录索引.md
 
 theme:
@@ -143,16 +142,7 @@ plugins:
   - tags
   - redirects:
       redirect_maps:
-        '找对象/找对象目录.md': '社交/社交目录.md'
-        '找对象/自我分析与定位.md': '社交/自我分析与定位.md'
-        '找对象/形象建设与管理.md': '社交/形象与资料.md'
-        '找对象/社交渠道与方法.md': '社交/社交实战手册.md'
-        '找对象/行动规划与执行.md': '社交/行动规划与执行.md'
         '找对象/朋友记录与评估.md': '社交/朋友记录与评估.md'
-        '社交/形象建设与管理.md': '社交/形象与资料.md'
-        '社交/社交资料填写页.md': '社交/形象与资料.md'
-        '社交/社交渠道与方法.md': '社交/社交实战手册.md'
-        '社交/网络交友话术.md': '社交/社交实战手册.md'
   - blog:
       blog_dir: blog
       archive: true
@@ -172,7 +162,11 @@ plugins:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -189,6 +183,8 @@ markdown_extensions:
   - md_in_html
 
 # 额外配置
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
 extra:
   social:
     - icon: fontawesome/brands/github
