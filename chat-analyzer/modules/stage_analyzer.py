@@ -13,9 +13,13 @@ class StageAnalyzer:
     """跨日期整体关系分析器。"""
 
     def __init__(self, config_path: str | Path = "config.yaml"):
+        self.config_path = Path(config_path).resolve()
         self.config = self._load_config(config_path)
         self.client = self._init_client()
         self.prompts_dir = Path(config_path).parent / "prompts"
+        self.api_extra = {}
+        if self.config.get("api", {}).get("thinking"):
+            self.api_extra = {"extra_body": {"thinking": {"type": "enabled"}, "reasoning_effort": "high"}}
 
     def _load_config(self, path: str | Path) -> dict:
         path = Path(path)
@@ -38,9 +42,10 @@ class StageAnalyzer:
             base_url=api_config.get("base_url", "https://api.deepseek.com"),
         )
 
-    def _load_scores(self) -> dict:
+    def _load_scores(self) -> list:
         """加载所有评分数据，按日期排序。"""
-        scores_path = Path(self.config.get("paths", {}).get("scores", "data/scores.json"))
+        out_dir = self.config_path.parent / self.config.get("paths", {}).get("output_dir", "output")
+        scores_path = out_dir / "scores.json"
         if not scores_path.exists():
             raise FileNotFoundError(f"评分数据不存在: {scores_path}。请先运行每日评估。")
 
@@ -49,32 +54,21 @@ class StageAnalyzer:
         return scores
 
     def _load_daily_summaries(self) -> dict[str, str]:
-        """从日记文件或 parsed JSON 中提取每日摘要。"""
-        diary_path = Path(self.config.get("paths", {}).get("diary", "../docs/社交/第0段记录.md"))
-        config_dir = Path("config.yaml").parent
-        diary_full = (config_dir / diary_path).resolve()
+        """从 output/diary/ 读取每日总结。"""
+        diary_dir = self.config_path.parent / self.config.get("paths", {}).get("output_dir", "output") / "diary"
         summaries = {}
+        if not diary_dir.exists():
+            return summaries
 
-        if diary_full.exists():
-            content = diary_full.read_text(encoding="utf-8")
-            # 按日期提取 "### MM-DD" 后的 "#### 记录" 内容
-            import re
-            date_blocks = re.split(r"\n### (\d{2}-\d{2})\n", content)
-            # date_blocks[0] is before first date, then alternating date/content
-            i = 1
-            while i + 1 < len(date_blocks):
-                date_short = date_blocks[i]
-                block = date_blocks[i + 1]
-                # 提取 #### 记录 下的内容
-                record_match = re.search(r"#### 记录\n(.*?)(?=\n####|\Z)", block, re.DOTALL)
-                if record_match:
-                    text = record_match.group(1).strip()
-                    if text:
-                        year = datetime.now().year
-                        date_full = f"{year}-{date_short}"
-                        summaries[date_full] = text
-                i += 2
-
+        import re
+        for f in sorted(diary_dir.glob("*.md")):
+            date = f.stem
+            content = f.read_text(encoding="utf-8")
+            m = re.search(r"## 总结\n+(.*?)(?=\n## |\Z)", content, re.DOTALL)
+            if m:
+                text = m.group(1).strip()
+                if text:
+                    summaries[date] = text
         return summaries
 
     def _build_scores_summary(self, scores: list[dict]) -> str:
@@ -132,17 +126,18 @@ class StageAnalyzer:
 
         api_config = self.config.get("api", {})
         response = self.client.chat.completions.create(
-            model=api_config.get("model", "deepseek-chat"),
+            model=api_config.get("model", "deepseek-v4-pro"),
             max_tokens=2000,
             temperature=0.7,
             messages=[{"role": "user", "content": prompt}],
+            **self.api_extra,
         )
 
         return response.choices[0].message.content.strip()
 
     def save_report(self, report: str) -> Path:
         """保存阶段报告。"""
-        output_dir = Path(self.config.get("paths", {}).get("reports", "output"))
+        output_dir = self.config_path.parent / self.config.get("paths", {}).get("output_dir", "output")
         output_dir.mkdir(parents=True, exist_ok=True)
         filename = f"stage_report_{datetime.now().strftime('%Y%m%d_%H%M')}.md"
         output_path = output_dir / filename

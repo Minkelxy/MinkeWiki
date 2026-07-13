@@ -14,9 +14,13 @@ class Summarizer:
     """聊天记录每日总结器。"""
 
     def __init__(self, config_path: str | Path = "config.yaml"):
+        self.config_path = Path(config_path).resolve()
         self.config = self._load_config(config_path)
         self.client = self._init_client()
         self.prompts_dir = Path(config_path).parent / "prompts"
+        self.api_extra = {}
+        if self.config.get("api", {}).get("thinking"):
+            self.api_extra = {"extra_body": {"thinking": {"type": "enabled"}, "reasoning_effort": "high"}}
 
     def _load_config(self, path: str | Path) -> dict:
         path = Path(path)
@@ -45,112 +49,161 @@ class Summarizer:
             raise FileNotFoundError(f"Prompt 文件不存在: {prompt_path}")
         return prompt_path.read_text(encoding="utf-8")
 
-    def _load_chat_content(self, date_str: str) -> str:
-        """从解析后的 JSON 或原始 txt 加载聊天内容。"""
-        parsed_dir = Path(
-            self.config.get("paths", {}).get("parsed_logs", "data/chat_logs/parsed")
-        )
-        raw_dir = Path(
-            self.config.get("paths", {}).get("raw_logs", "data/chat_logs/raw")
-        )
-
-        # 优先读取已解析的 JSON
-        json_path = parsed_dir / f"{date_str}.json"
-        if json_path.exists():
-            data = json.loads(json_path.read_text(encoding="utf-8"))
-            lines = []
-            for msg in data.get("messages", []):
-                lines.append(f"[{msg['time']}] {msg['sender']}: {msg['content']}")
-            return "\n".join(lines)
-
-        # 回退到原始 txt
-        for ext in [".txt", ".log"]:
-            raw_path = raw_dir / f"{date_str}{ext}"
-            if raw_path.exists():
-                return raw_path.read_text(encoding="utf-8")
-
-        raise FileNotFoundError(
-            f"未找到 {date_str} 的聊天记录文件（检查了 parsed/ 和 raw/）"
-        )
-
-    def generate_summary(self, date_str: str) -> str:
-        """生成指定日期的总结。"""
+    def generate_summary(self, date_str: str) -> dict:
+        """生成指定日期的总结和计划。返回 {"summary": str, "plan": str, "todos": str}。"""
         contact = self.config.get("contact_name", "对方")
-        chat_content = self._load_chat_content(date_str)
-
-        # 如果内容太长，截断到最近的消息（保留最后 ~8000 字）
-        max_chars = 8000
-        if len(chat_content) > max_chars:
-            chat_content = (
-                "... (早期对话已省略) ...\n" + chat_content[-(max_chars - 100) :]
-            )
+        messages = self._load_messages(date_str)
+        stats = self._calc_stats(messages)
+        todo_ctx = self._load_todos_context()
+        chat_content = self._chat_content_str(messages)
 
         prompt_template = self._load_prompt("summary.txt")
-        prompt = prompt_template.format(contact=contact, chat_content=chat_content)
+        prompt = prompt_template.format(
+            contact=contact,
+            stats=self._stats_text(stats),
+            todos_context=todo_ctx,
+            chat_content=chat_content,
+        )
 
         api_config = self.config.get("api", {})
         response = self.client.chat.completions.create(
-            model=api_config.get("model", "deepseek-chat"),
-            max_tokens=api_config.get("max_tokens", 1000),
+            model=api_config.get("model", "deepseek-v4-pro"),
+            max_tokens=api_config.get("max_tokens", 1500),
             temperature=api_config.get("temperature", 0.7),
             messages=[{"role": "user", "content": prompt}],
+            **self.api_extra,
         )
 
-        summary = response.choices[0].message.content
-        return summary.strip()
+        raw = response.choices[0].message.content.strip()
+        result = self._parse_result(raw)
+        self._save_todos(result.get("todos", ""), date_str)
+        return result
 
-    def write_to_diary(self, date_str: str, summary: str) -> None:
-        """将总结写入 第0段记录.md 对应日期的 #### 记录 下。"""
-        diary_rel = self.config.get("paths", {}).get("diary", "../docs/社交/第0段记录.md")
-        diary_path = Path(diary_rel)
-        if not diary_path.is_absolute():
-            # 相对于 config.yaml 所在目录
-            config_dir = Path("config.yaml").parent
-            diary_path = (config_dir / diary_rel).resolve()
+    def _load_messages(self, date_str: str) -> list[dict]:
+        """加载已解析的消息列表。"""
+        parsed_dir = self.config_path.parent / self.config.get("paths", {}).get(
+            "parsed_logs", "data/chat_logs/parsed"
+        )
+        json_path = parsed_dir / f"{date_str}.json"
+        if json_path.exists():
+            return json.loads(json_path.read_text(encoding="utf-8")).get("messages", [])
+        raise FileNotFoundError(f"未找到已解析的聊天记录: {json_path}")
 
-        if not diary_path.exists():
-            raise FileNotFoundError(f"日记文件不存在: {diary_path}")
+    def _calc_stats(self, messages: list[dict]) -> dict:
+        """计算每日统计。"""
+        me_msgs = [m for m in messages if m["sender"] == "我"]
+        other_msgs = [m for m in messages if m["sender"] != "我"]
+        return {
+            "total": len(messages),
+            "me_count": len(me_msgs),
+            "other_count": len(other_msgs),
+            "me_pct": round(len(me_msgs) / len(messages) * 100) if messages else 50,
+        }
 
-        content = diary_path.read_text(encoding="utf-8")
+    def _stats_text(self, stats: dict) -> str:
+        return (
+            f"消息 {stats['total']} 条（我 {stats['me_count']}，对方 {stats['other_count']}），"
+            f"我占比 {stats['me_pct']}%"
+        )
 
-        # 提取日期短格式：2026-07-10 → 07-10
-        short_date = date_str[-5:] if len(date_str) == 10 else date_str
+    def _chat_content_str(self, messages: list[dict], max_chars: int = 7000) -> str:
+        lines = [f"[{m['time']}] {m['sender']}: {m['content']}" for m in messages]
+        text = "\n".join(lines)
+        if len(text) > max_chars:
+            text = "... (早期对话已省略) ...\n" + text[-(max_chars - 100):]
+        return text
 
-        # 匹配 "### 07-10" 及其后续的 "#### 记录"
-        date_heading = f"### {short_date}"
+    def _load_todos_context(self) -> str:
+        """加载待跟进上下文。"""
+        todos_path = self.config_path.parent / self.config.get("paths", {}).get("output_dir", "output") / "todos.json"
+        if not todos_path.exists():
+            return "(无待跟进事项)"
+        todos = json.loads(todos_path.read_text(encoding="utf-8"))
+        pending = [t for t in todos if t.get("status") == "pending"]
+        if not pending:
+            return "(所有待办已完成)"
+        lines = ["以下是从之前聊天中提取的待跟进事项："]
+        for t in pending[-8:]:
+            lines.append(f"  - [{t['date']}] {t['content']}")
+        return "\n".join(lines)
 
-        if date_heading not in content:
-            raise ValueError(f"在日记中未找到日期标题: {date_heading}")
+    def _save_todos(self, todos_text: str, date_str: str) -> None:
+        """保存新提取的待办。"""
+        if not todos_text or todos_text.strip() in ("无", "无。", ""):
+            return
+        items = [line.strip("- ").strip() for line in todos_text.split("\n")
+                 if line.strip().startswith("-")]
+        if not items:
+            return
 
-        # 找到日期标题后的 #### 记录 位置
-        date_pos = content.index(date_heading)
-        after_date = content[date_pos:]
+        todos_path = self.config_path.parent / self.config.get("paths", {}).get("output_dir", "output") / "todos.json"
+        existing = []
+        if todos_path.exists():
+            existing = json.loads(todos_path.read_text(encoding="utf-8"))
 
-        record_heading = "#### 记录"
-        if record_heading not in after_date:
-            raise ValueError(f"在 {date_heading} 下未找到 {record_heading}")
+        for item in items:
+            # 简单去重
+            if not any(t.get("content") == item for t in existing):
+                existing.append({
+                    "date": date_str,
+                    "content": item,
+                    "status": "pending",
+                })
 
-        record_pos = date_pos + after_date.index(record_heading) + len(record_heading)
-        # 找到下一行
-        next_newline = content.index("\n", record_pos)
-        # 检查下一行是否是 #### 计划 (即 #### 记录下无内容)
-        next_section = content.find("####", next_newline + 1)
+        todos_path.parent.mkdir(parents=True, exist_ok=True)
+        todos_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2), encoding="utf-8")
 
-        insert_pos = next_newline
+    def _parse_result(self, raw: str) -> dict:
+        """解析 LLM 输出，提取总结、计划和待跟进。"""
+        import re
 
-        # 在 "#### 记录" 后插入总结
-        indent = "\n\n"
-        # 检查是否已有内容
-        existing = content[next_newline + 1 : next_section].strip() if next_section > 0 else ""
-        if existing and not existing.startswith("##"):
-            # 追加到已有内容后
-            insert_pos = next_newline
-            new_content = content[:insert_pos] + f"\n{summary}\n" + content[insert_pos + 1:]
+        result = {"summary": "", "plan": "", "todos": ""}
+
+        summary_match = re.search(r"【总结】\s*\n?(.*?)(?=【计划】|\Z)", raw, re.DOTALL)
+        plan_match = re.search(r"【计划】\s*\n?(.*?)(?=【待跟进】|\Z)", raw, re.DOTALL)
+        todos_match = re.search(r"【待跟进】\s*\n?(.*?)(?=\Z)", raw, re.DOTALL)
+
+        if summary_match:
+            result["summary"] = summary_match.group(1).strip()
         else:
-            new_content = content[:insert_pos] + f"\n\n{summary}\n" + content[insert_pos:]
+            result["summary"] = raw
 
-        diary_path.write_text(new_content, encoding="utf-8")
-        print(f"总结已写入: {diary_path} ({short_date})")
+        if plan_match:
+            result["plan"] = plan_match.group(1).strip()
+        if todos_match:
+            result["todos"] = todos_match.group(1).strip()
+
+        return result
+
+    def save_summary(self, date_str: str, result: dict) -> None:
+        """将总结+计划+待办写入 output/diary/ 目录。"""
+        out_dir = self.config_path.parent / self.config.get("paths", {}).get("output_dir", "output") / "diary"
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        lines = [f"# {date_str} 日记", ""]
+        lines.append("## 总结")
+        lines.append("")
+        lines.append(result.get("summary", ""))
+        lines.append("")
+
+        plan = result.get("plan", "")
+        if plan:
+            lines.append("## 计划")
+            lines.append("")
+            lines.append(plan)
+            lines.append("")
+
+        todos = result.get("todos", "")
+        if todos and todos.strip() not in ("无", "无。", ""):
+            lines.append("## 待跟进")
+            lines.append("")
+            lines.append(todos)
+            lines.append("")
+
+        out_path = out_dir / f"{date_str}.md"
+        out_path.write_text("\n".join(lines), encoding="utf-8")
+        short = date_str[-5:] if len(date_str) == 10 else date_str
+        print(f"总结+计划已写入: {out_path}")
 
 
 def main():
@@ -160,14 +213,19 @@ def main():
 
     date_str = sys.argv[1]
     summarizer = Summarizer()
-    summary = summarizer.generate_summary(date_str)
+    result = summarizer.generate_summary(date_str)
     print("=" * 50)
-    print(summary)
+    print("【总结】")
+    print(result.get("summary", ""))
+    if result.get("plan"):
+        print()
+        print("【计划】")
+        print(result["plan"])
     print("=" * 50)
 
     answer = input("\n写入日记？(y/N): ").strip().lower()
     if answer == "y":
-        summarizer.write_to_diary(date_str, summary)
+        summarizer.save_summary(date_str, result)
     else:
         print("已取消。")
 

@@ -12,20 +12,21 @@ class Reporter:
     """长期聊天趋势报告生成器。"""
 
     DIMENSIONS = [
-        "对话深度",
-        "情绪积极度",
-        "回复意愿",
-        "话题多样性",
+        "互动质量",
+        "对方投入度",
         "自我暴露",
-        "节奏控制",
-        "破冰进展",
+        "节奏感",
+        "关系进展",
     ]
 
     def __init__(self, config: dict | str | Path = "config.yaml"):
         if isinstance(config, dict):
             self.config = config
+            self._proj_dir = Path(config.get("_config_dir", "."))
         else:
-            with open(config, encoding="utf-8") as f:
+            cpath = Path(config).resolve()
+            self._proj_dir = cpath.parent
+            with open(cpath, encoding="utf-8") as f:
                 self.config = yaml.safe_load(f)
 
     def generate(self, scores: list[dict]) -> str:
@@ -120,12 +121,12 @@ class Reporter:
                 )
                 break
 
-        # 回复意愿低
-        for item in scores[-3:]:  # 最近 3 天
-            reply_score = item.get("scores", {}).get("回复意愿", 10)
-            if reply_score <= reply_threshold:
+        # 对方投入度低
+        for item in scores[-3:]:
+            engage_score = item.get("scores", {}).get("对方投入度", 10)
+            if engage_score <= reply_threshold:
                 warnings.append(
-                    f"{item['date']} 回复意愿评分低 ({reply_score}/10)"
+                    f"{item['date']} 对方投入度偏低 ({engage_score}/10)"
                 )
 
         # 下降趋势
@@ -151,13 +152,11 @@ class Reporter:
             lowest_dim = min(latest, key=latest.get)
             lowest_score = latest[lowest_dim]
             suggestions = {
-                "对话深度": "尝试引入更多有深度的话题（梦想、价值观、成长经历），避免停留在日常琐事",
-                "情绪积极度": "关注对方当前的情绪状态，可以询问近况，表达关心",
-                "回复意愿": "不要过度主动，给对方空间。检查是否消息频率过高或话题让对方无感",
-                "话题多样性": "拓展聊天范围，准备一些不同领域的话题作为备选",
+                "互动质量": "尝试引入更多有深度的话题，或拓展到不同领域，避免停留在日常琐事",
+                "对方投入度": "关注对方情绪状态，检查消息频率和话题是否让对方无感。如对方间隔长，适当给空间",
                 "自我暴露": "适当先分享自己，降低对方的防御感，创造安全的分享氛围",
-                "节奏控制": "注意消息的发送节奏，避免连续多条消息轰炸，也不要在对方热情时过于冷淡",
-                "破冰进展": "寻找共同兴趣点或活动机会，创造线下或更深层次的互动",
+                "节奏感": "注意消息的发送节奏和频率，避免轰炸也不要在对方热情时过于冷淡",
+                "关系进展": "寻找共同兴趣点或活动机会，创造线下或更深层次的互动",
             }
             lines.append(
                 f"- **重点关注 {lowest_dim}**（当前 {lowest_score} 分）: "
@@ -172,7 +171,7 @@ class Reporter:
 
     def save(self, report: str) -> None:
         """保存报告到文件。"""
-        output_dir = Path(self.config.get("paths", {}).get("reports", "output"))
+        output_dir = self._proj_dir / self.config.get("paths", {}).get("output_dir", "output")
         output_dir.mkdir(parents=True, exist_ok=True)
         filename = f"report_{datetime.now().strftime('%Y%m%d')}.md"
         output_path = output_dir / filename
@@ -192,7 +191,7 @@ class Reporter:
 
 
 def main():
-    scores_path = Path("data/scores.json")
+    scores_path = Path("output/scores.json")
     if not scores_path.exists():
         print("暂无评分数据。", file=sys.stderr)
         sys.exit(1)

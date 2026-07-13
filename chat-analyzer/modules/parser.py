@@ -34,9 +34,10 @@ class ChatParser:
         ),
     }
 
-    def __init__(self, contact_name: str = "", year: int | None = None):
+    def __init__(self, contact_name: str = "", year: int | None = None, day_boundary: int = 4):
         self.contact_name = contact_name
         self.year = year or datetime.now().year
+        self.day_boundary = day_boundary  # 几点作为日期分界线，默认凌晨4点
 
     def parse(self, file_path: str | Path) -> list[dict]:
         """解析聊天记录文件，返回消息列表。"""
@@ -86,12 +87,15 @@ class ChatParser:
             if item.get("type") == "system":
                 continue
 
-            # 时间戳转换
+            # 时间戳转换（应用日期分界线）
             ts = item.get("timestamp", item.get("time", item.get("createTime", 0)))
             if isinstance(ts, (int, float)) and ts > 1000000000:
-                from datetime import datetime
+                from datetime import datetime, timedelta
 
-                time_str = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+                dt = datetime.fromtimestamp(ts)
+                if dt.hour < self.day_boundary:
+                    dt = dt - timedelta(days=1)
+                time_str = dt.strftime("%Y-%m-%d %H:%M:%S")
             else:
                 time_str = str(ts)
 
