@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat Analyzer - 用 AI 理解每一段对话</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #14141f;
+    --card: #1a1a2e;
+    --border: #2a2a3e;
+    --text: #e0e0e8;
+    --text2: #9090a8;
+    --accent: #6366f1;
+    --accent2: #8b5cf6;
+    --accent3: #a78bfa;
+    --pink: #ec4899;
+    --rose: #f43f5e;
+    --amber: #f59e0b;
+    --emerald: #10b981;
+    --cyan: #06b6d4;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ---- Navigation ---- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    backdrop-filter: blur(20px); background: rgba(10,10,15,0.85);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  nav .inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  nav .logo { font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em; }
+  nav .logo span { color: var(--accent3); }
+  nav a {
+    color: var(--text2); text-decoration: none; font-size: 0.9rem;
+    margin-left: 1.8rem; transition: color 0.2s;
+  }
+  nav a:hover { color: var(--text); }
+
+  /* ---- Sections ---- */
+  section {
+    max-width: 1100px; margin: 0 auto; padding: 100px 2rem;
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    padding-top: 56px;
+    position: relative;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero .badge {
+    display: inline-block; padding: 0.3rem 1rem;
+    border: 1px solid var(--border); border-radius: 999px;
+    font-size: 0.85rem; color: var(--text2); margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900;
+    letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(135deg, var(--accent3), var(--pink), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .sub {
+    font-size: 1.2rem; color: var(--text2); max-width: 560px;
+    position: relative; z-index: 1; margin-bottom: 2.5rem;
+  }
+  .hero .scroll-hint {
+    position: absolute; bottom: 2rem;
+    color: var(--text2); font-size: 0.85rem;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* ---- Section Headers ---- */
+  .section-tag {
+    display: inline-block; padding: 0.25rem 0.8rem;
+    background: rgba(99,102,241,0.15); color: var(--accent3);
+    border-radius: 999px; font-size: 0.8rem; font-weight: 500;
+    letter-spacing: 0.05em; margin-bottom: 1rem;
+  }
+  h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 700;
+    letter-spacing: -0.01em; margin-bottom: 1rem;
+  }
+  .section-desc {
+    color: var(--text2); font-size: 1.05rem; max-width: 600px; margin-bottom: 3rem;
+  }
+
+  /* ---- Cards Grid ---- */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.8rem;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card .icon { font-size: 2rem; margin-bottom: 0.8rem; }
+  .card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .card p { color: var(--text2); font-size: 0.93rem; line-height: 1.6; }
+
+  /* ---- Problem Cards ---- */
+  .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+  .problem-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem; text-align: center;
+  }
+  .problem-card .emoji { font-size: 2.2rem; margin-bottom: 0.6rem; }
+  .problem-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .problem-card p { color: var(--text2); font-size: 0.85rem; }
+
+  /* ---- Architecture ---- */
+  .arch-flow {
+    display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center;
+    align-items: center; margin: 2.5rem 0;
+  }
+  .arch-node {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 0.9rem 1.4rem; text-align: center;
+    font-weight: 500; font-size: 0.9rem; white-space: nowrap;
+  }
+  .arch-node.highlight { border-color: var(--accent); background: rgba(99,102,241,0.1); }
+  .arch-arrow { color: var(--text2); font-size: 1.2rem; }
+
+  /* ---- Pipeline Steps ---- */
+  .pipeline { display: flex; flex-direction: column; gap: 1rem; }
+  .pipe-step {
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    padding: 1.5rem; background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; transition: border-color 0.2s;
+  }
+  .pipe-step:hover { border-color: var(--accent); }
+  .pipe-num {
+    flex-shrink: 0; width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.1rem;
+  }
+  .pipe-content h4 { font-weight: 600; margin-bottom: 0.3rem; }
+  .pipe-content p { color: var(--text2); font-size: 0.9rem; }
+  .pipe-content .tech {
+    display: inline-block; margin-top: 0.5rem;
+    padding: 0.15rem 0.6rem; border-radius: 6px;
+    background: rgba(139,92,246,0.12); color: var(--accent3);
+    font-size: 0.78rem; font-family: monospace;
+  }
+
+  /* ---- Score Chart ---- */
+  .score-chart { margin: 2rem 0; }
+  .score-row {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+    padding: 0.8rem 1.2rem; background: var(--card); border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .score-label {
+    width: 100px; font-weight: 500; font-size: 0.9rem; text-align: right; flex-shrink: 0;
+  }
+  .score-bar-wrap { flex: 1; height: 28px; background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; position: relative; }
+  .score-bar {
+    height: 100%; border-radius: 8px; transition: width 0.8s ease;
+    display: flex; align-items: center; padding-left: 12px;
+    font-size: 0.8rem; font-weight: 600;
+  }
+  .score-val { width: 40px; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+
+  /* ---- Trend Mini Chart ---- */
+  .trend-chart {
+    display: flex; align-items: flex-end; gap: 6px;
+    height: 180px; padding: 1rem; background: var(--card);
+    border: 1px solid var(--border); border-radius: 14px;
+    margin: 1.5rem 0;
+  }
+  .trend-bar {
+    flex: 1; border-radius: 6px 6px 0 0;
+    background: linear-gradient(to top, var(--accent), var(--accent2));
+    position: relative; min-height: 20px;
+    transition: height 0.6s ease;
+  }
+  .trend-bar:hover { filter: brightness(1.3); }
+  .trend-bar .val {
+    position: absolute; top: -22px; left: 50%; transform: translateX(-50%);
+    font-size: 0.75rem; font-weight: 600; color: var(--text2);
+  }
+  .trend-labels {
+    display: flex; gap: 6px; padding: 0.5rem 1rem;
+  }
+  .trend-label {
+    flex: 1; text-align: center; font-size: 0.7rem; color: var(--text2);
+  }
+
+  /* ---- Quote ---- */
+  .quote-block {
+    border-left: 3px solid var(--accent);
+    padding: 1.2rem 1.8rem; margin: 2rem 0;
+    background: var(--card); border-radius: 0 12px 12px 0;
+    font-style: italic; color: var(--text2);
+  }
+  .quote-block .author { font-style: normal; color: var(--accent3); margin-top: 0.5rem; font-size: 0.9rem; }
+
+  /* ---- Portrait Grid ---- */
+  .portrait-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+  .portrait-cat {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.5rem;
+  }
+  .portrait-cat h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.4rem; }
+  .portrait-cat ul { list-style: none; font-size: 0.85rem; color: var(--text2); }
+  .portrait-cat li { padding: 0.2rem 0; }
+  .portrait-cat li::before { content: '— '; color: var(--accent); }
+
+  /* ---- Stats Row ---- */
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.5rem; text-align: center;
+  }
+  .stat-card .num { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent3), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat-card .lbl { font-size: 0.85rem; color: var(--text2); margin-top: 0.3rem; }
+
+  /* ---- Two Col ---- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ---- Code Block ---- */
+  .code-block {
+    background: #0d0d1a; border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem; overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.82rem; line-height: 1.6; color: var(--text2);
+  }
+  .code-block .kw { color: var(--accent3); }
+  .code-block .str { color: var(--emerald); }
+  .code-block .fn { color: var(--amber); }
+  .code-block .cmt { color: #555; font-style: italic; }
+
+  /* ---- Footer ---- */
+  footer {
+    text-align: center; padding: 4rem 2rem;
+    color: var(--text2); font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ---- Animations ---- */
+  .fade-in {
+    opacity: 0; transform: translateY(30px);
+    animation: fadeIn 0.7s ease forwards;
+  }
+  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.45s; }
+
+  /* ---- Highlight Box ---- */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(236,72,153,0.08));
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: 16px; padding: 2rem; margin: 2rem 0;
+  }
+  .highlight-box h3 { margin-bottom: 0.8rem; }
+  .highlight-box p { color: var(--text2); font-size: 0.95rem; }
+
+  /* ---- Score Table ---- */
+  .score-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .score-table th {
+    text-align: left; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--border);
+    color: var(--text2); font-weight: 500; font-size: 0.8rem;
+  }
+  .score-table td {
+    padding: 0.55rem 0.8rem; border-bottom: 1px solid rgba(42,42,62,0.5);
+  }
+  .score-up { color: var(--emerald); }
+  .score-down { color: var(--rose); }
+  .score-flat { color: var(--amber); }
+
+  .chart-container { position: relative; margin: 2rem 0; }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="inner">
+    <div class="logo">Chat<span>Analyzer</span></div>
+    <div>
+      <a href="#why">初心</a>
+      <a href="#what">想法</a>
+      <a href="#how">实现</a>
+      <a href="#result">效果</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="badge fade-in">LLM-Powered Relationship Analytics</div>
+  <h1 class="fade-in delay-1">用<span class="grad"> AI </span>理解<br>每一段对话</h1>
+  <p class="sub fade-in delay-2">
+    将微信聊天记录转化为有温度的数据洞察——<br>
+    从客观统计到主观感受，让 AI 帮你看见关系中的自己
+  </p>
+  <div class="scroll-hint">↓ 向下滚动探索</div>
+</section>
+
+<!-- 初心：为什么做这个 -->
+<section id="why">
+  <div class="section-tag">01 — 初心</div>
+  <h2>为什么需要 AI 来分析聊天？</h2>
+  <p class="section-desc">
+    在一段关系中，我们常常陷入主观判断——今天聊得好吗？Ta 对我有意思吗？
+    这些问题没有标准答案，但数据可以提供一个参照系。
+  </p>
+
+  <div class="problem-grid">
+    <div class="problem-card fade-in">
+      <div class="emoji">🎭</div>
+      <h4>主观偏差</h4>
+      <p>情绪好的时候觉得一切完美，<br>情绪低落时又过度悲观</p>
+    </div>
+    <div class="problem-card fade-in delay-1">
+      <div class="emoji">📊</div>
+      <h4>缺乏量化</h4>
+      <p>每天聊几百条消息，<br>但无法客观评估互动质量</p>
+    </div>
+    <div class="problem-card fade-in delay-2">
+      <div class="emoji">🔍</div>
+      <h4>信息遗漏</h4>
+      <p>对方透露的喜好、愿望、经历，<br>聊过就忘，缺乏系统记录</p>
+    </div>
+    <div class="problem-card fade-in delay-3">
+      <div class="emoji">📈</div>
+      <h4>趋势盲区</h4>
+      <p>只看今天不知道走向，<br>关系是在升温还是降温？</p>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 2.5rem;">
+    <h3>核心洞察</h3>
+    <p>
+      聊天记录是一座未被开采的金矿。每一条消息都包含了互动的温度、节奏和深度——
+      但人脑无法同时处理数千条消息的多维信息。LLM 恰好擅长这件事：在海量文本中发现模式、评估质量、提取关键信息。
+    </p>
+  </div>
+</section>
+
+<!-- 想法：核心理念 -->
+<section id="what">
+  <div class="section-tag">02 — 想法</div>
+  <h2>让 LLM 成为你的关系观察者</h2>
+  <p class="section-desc">
+    不是让 AI 告诉你"该怎么做"，而是提供一个客观、量化、可追溯的视角，帮助你更清醒地认识关系中的自己。
+  </p>
+
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="icon">📝</div>
+      <h3>每日日记生成</h3>
+      <p>LLM 以第一人称视角将每天的聊天总结为 100-200 字的日记。不是冷冰冰的摘要，而是有情感、有反思的私密记录——就像你亲自写的一样。</p>
+    </div>
+    <div class="card fade-in delay-1">
+      <div class="icon">📊</div>
+      <h3>五维量化评分</h3>
+      <p>从互动质量、对方投入度、自我暴露、节奏感、关系进展五个维度评分。每个维度都有客观数据锚点（消息数、回复间隔、主动发起次数等），避免 LLM 随意打分。</p>
+    </div>
+    <div class="card fade-in delay-2">
+      <div class="icon">🎯</div>
+      <h3>人物画像提取</h3>
+      <p>自动从对话中提取对方透露的个人信息——爱好、背景、愿望、过去经历。持续更新、自动去重，帮你真正"了解"一个人。</p>
+    </div>
+    <div class="card fade-in delay-3">
+      <div class="icon">🔔</div>
+      <h3>信号与预警</h3>
+      <p>每天输出一个正面信号和一个风险信号。连续低分自动预警，帮助你及时调整互动策略。</p>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    <p>"我们需要的不只是一个聊天记录备份工具，而是一个能理解对话深度的分析系统。LLM 让这个想法从不可能变为可能。"</p>
+    <div class="author">—— 项目核心理念</div>
+  </div>
+</section>
+
+<!-- 实现方法 -->
+<section id="how">
+  <div class="section-tag">03 — 实现方法</div>
+  <h2>技术架构与流水线</h2>
+  <p class="section-desc">
+    从原始微信导出到可视化报告，一条完整的 LLM 驱动分析流水线。
+  </p>
+
+  <!-- Architecture Flow -->
+  <div class="arch-flow">
+    <div class="arch-node">📱 微信聊天</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node">📤 WeChatMsg 导出</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node highlight">🔧 Parser 解析</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node highlight">🤖 LLM 分析</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node highlight">📊 报告生成</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node">🌐 HTML 看板</div>
+  </div>
+
+  <!-- Pipeline Details -->
+  <div class="pipeline">
+    <div class="pipe-step fade-in">
+      <div class="pipe-num">1</div>
+      <div class="pipe-content">
+        <h4>解析层 — ChatParser</h4>
+        <p>解析 WeChatMsg 导出的 JSON/文本格式，统一时间戳、识别消息类型（文字/图片/表情/语音），支持凌晨 4 点日界线规则。</p>
+        <span class="tech">Python · JSON · 正则表达式</span>
+      </div>
+    </div>
+    <div class="pipe-step fade-in delay-1">
+      <div class="pipe-num">2</div>
+      <div class="pipe-content">
+        <h4>总结层 — Summarizer</h4>
+        <p>调用 DeepSeek API，以第一人称视角生成日记式总结（100-200字）+ 次日行动计划。启用 thinking 模式进行深度推理。</p>
+        <span class="tech">DeepSeek API · Prompt Engineering · Temperature 0.7</span>
+      </div>
+    </div>
+    <div class="pipe-step fade-in delay-2">
+      <div class="pipe-num">3</div>
+      <div class="pipe-content">
+        <h4>评估层 — Evaluator</h4>
+        <p>五维评分系统：互动质量(×1.5)、对方投入度(×2.0)、自我暴露(×1.5)、节奏感(×1.0)、关系进展(×1.0)。每个维度先用统计规则计算锚点分数，再交由 LLM 在锚点附近微调。评分时参考近 3 天历史分数做校准，确保趋势一致性。<strong>这是整个系统最核心的模块。</strong></p>
+        <span class="tech">加权评分 · 统计锚点 · 历史校准 · Temperature 0.3</span>
+      </div>
+    </div>
+    <div class="pipe-step fade-in delay-3">
+      <div class="pipe-num">4</div>
+      <div class="pipe-content">
+        <h4>画像层 — PortraitUpdater</h4>
+        <p>从对话中增量提取对方信息，按爱好/信息/愿望/过去四类归档。自动语义去重，避免信息冗余。严格过滤"我"的信息，防止污染。</p>
+        <span class="tech">增量更新 · 语义去重 · 身份过滤</span>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">5</div>
+      <div class="pipe-content">
+        <h4>报告层 — ReportGenerator + StageAnalyzer + Reporter</h4>
+        <p>生成交互式 HTML 单页看板（含聊天查看器、评分趋势图、消息热力图、人物画像），阶段分析报告（整体评估+风险预警+下一阶段建议），趋势报告（维度变化方向+异常检测），以及 Markdown 文件树导出（适合归档到文档系统）。</p>
+        <span class="tech">HTML/CSS/JS · ECharts风格图表 · Markdown导出</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Stack -->
+  <div class="stat-row" style="margin-top: 2.5rem;">
+    <div class="stat-card">
+      <div style="font-size:2rem;">🐍</div>
+      <div class="lbl">Python 3.10+</div>
+    </div>
+    <div class="stat-card">
+      <div style="font-size:2rem;">🧠</div>
+      <div class="lbl">DeepSeek V4 Pro</div>
+    </div>
+    <div class="stat-card">
+      <div style="font-size:2rem;">📋</div>
+      <div class="lbl">OpenAI SDK</div>
+    </div>
+    <div class="stat-card">
+      <div style="font-size:2rem;">⚡</div>
+      <div class="lbl">Prompt Caching</div>
+    </div>
+    <div class="stat-card">
+      <div style="font-size:2rem;">🧪</div>
+      <div class="lbl">单元测试覆盖</div>
+    </div>
+  </div>
+</section>
+
+<!-- 效果展示 -->
+<section id="result">
+  <div class="section-tag">04 — 效果展示</div>
+  <h2>真实数据，真实洞察</h2>
+  <p class="section-desc">
+    以下数据来自 2026.07.04 — 2026.07.12 共 9 天的真实分析结果。
+  </p>
+
+  <!-- Stats Overview -->
+  <div class="stat-row">
+    <div class="stat-card fade-in">
+      <div class="num">3,193</div>
+      <div class="lbl">分析消息总数</div>
+    </div>
+    <div class="stat-card fade-in delay-1">
+      <div class="num">7.0</div>
+      <div class="lbl">平均综合评分</div>
+    </div>
+    <div class="stat-card fade-in delay-2">
+      <div class="num">7.6</div>
+      <div class="lbl">最高单日评分</div>
+    </div>
+    <div class="stat-card fade-in delay-3">
+      <div class="num">5.9</div>
+      <div class="lbl">最低单日评分</div>
+    </div>
+  </div>
+
+  <!-- Score Trend Chart -->
+  <h3 style="margin-top:2rem; margin-bottom:0.5rem;">综合评分趋势</h3>
+  <div class="trend-chart" id="trendChart"></div>
+  <div class="trend-labels" id="trendLabels"></div>
+
+  <!-- Two Column: Scores + Diary -->
+  <div class="two-col" style="margin-top:2.5rem;">
+    <div>
+      <h3 style="margin-bottom:0.8rem;">五维评分详解 (2026-07-08)</h3>
+      <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">评分最高的日期之一 — 这一天交换了真实姓名和地址</p>
+      <div class="score-chart" id="scoreDetail"></div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:0.8rem;">AI 生成的日记</h3>
+      <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">LLM 以第一人称视角总结每日对话</p>
+      <div class="card" style="font-size:0.9rem; line-height:1.8;">
+        <p style="color:var(--text2);">
+          今天她说我"聪明"、"活得很不一样"、"一点也不黯淡"，我心跳都快了半拍。我的天，她夸人真的不吝啬，尤其是说"一点也不黯淡"的时候，感觉她好像真的懂我在想什么。我居然把高三的成绩单翻出来给她看了，现在有点后悔，是不是有点炫耀过头了。不过她说"偏科的人都聪明"，还说物理那么难我是"天才啊"，妈的，被她夸得我有点飘...
+        </p>
+        <p style="margin-top:0.8rem; font-size:0.8rem; color:var(--accent3);">📅 2026-07-08 日记节选</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Score History Table -->
+  <h3 style="margin-top:3rem; margin-bottom:0.8rem;">每日评分明细</h3>
+  <div style="overflow-x:auto;">
+    <table class="score-table" id="scoreTable"></table>
+  </div>
+
+  <!-- Portrait -->
+  <h3 style="margin-top:3rem; margin-bottom:0.8rem;">AI 提取的人物画像</h3>
+  <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.5rem;">从 9 天的对话中自动提取、分类、去重的对方个人信息</p>
+  <div class="portrait-grid" id="portraitGrid"></div>
+
+  <!-- Signals -->
+  <h3 style="margin-top:3rem; margin-bottom:0.8rem;">每日信号与预警</h3>
+  <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">每天自动生成一个正面信号和一个风险信号</p>
+  <div id="signalsList"></div>
+
+  <!-- Stage Analysis -->
+  <div class="highlight-box" style="margin-top:2.5rem;">
+    <h3>阶段分析摘要</h3>
+    <p style="margin-bottom:0.8rem;">
+      基于 9 天数据的综合评估：关系呈<strong style="color:var(--emerald);">波动上升</strong>趋势。对方在熟悉后投入度和自我暴露明显提升，从最初的礼貌回应逐渐转向主动分享和情感表达。
+      主要风险点：<strong style="color:var(--amber);">节奏感</strong>连续 9 天评分偏低（均在 5-6 分），我方的消息占比和连续发送频率需要改善。
+      关系关键节点：7 月 8 日交换真实姓名和地址是信任建立的重要里程碑。
+    </p>
+  </div>
+
+  <!-- HTML Report Preview -->
+  <h3 style="margin-top:3rem; margin-bottom:0.8rem;">交互式 HTML 报告</h3>
+  <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.5rem;">
+    系统自动生成单页交互式看板，包含聊天记录查看器、评分趋势图、消息热力图等
+  </p>
+  <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
+    <div style="background:var(--surface); padding:0.6rem 1rem; border-bottom:1px solid var(--border); display:flex; gap:0.5rem;">
+      <span style="width:10px;height:10px;border-radius:50%;background:#f43f5e;"></span>
+      <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;"></span>
+      <span style="width:10px;height:10px;border-radius:50%;background:#10b981;"></span>
+      <span style="font-size:0.75rem;color:var(--text2);margin-left:0.5rem;">报告预览 — full_report.html</span>
+    </div>
+    <div style="padding:1rem; display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; font-size:0.75rem; color:var(--text2);">
+      <div style="background:var(--surface);padding:0.7rem;border-radius:8px;">📊 概览卡片：总天数 / 消息数 / 均分</div>
+      <div style="background:var(--surface);padding:0.7rem;border-radius:8px;">📈 评分趋势柱状图</div>
+      <div style="background:var(--surface);padding:0.7rem;border-radius:8px;">🔥 24小时消息热力图</div>
+      <div style="background:var(--surface);padding:0.7rem;border-radius:8px;">💬 按天切换聊天查看器</div>
+      <div style="background:var(--surface);padding:0.7rem;border-radius:8px;">👤 人物画像网格展示</div>
+      <div style="background:var(--surface);padding:0.7rem;border-radius:8px;">📋 阶段分析报告全文</div>
+    </div>
+  </div>
+</section>
+
+<!-- 总结 -->
+<section>
+  <div class="section-tag">05 — 总结</div>
+  <h2>这个项目的意义</h2>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon">💡</div>
+      <h3>技术验证</h3>
+      <p>证明了 LLM 可以在高度主观的领域中提供有价值的量化分析。关键设计在于：用统计锚点约束 LLM 的评分范围，用历史校准保证趋势一致性，让 AI 的"主观"建立在"客观"之上。</p>
+    </div>
+    <div class="card">
+      <div class="icon">🔧</div>
+      <h3>工程实践</h3>
+      <p>一套完整的 LLM 应用工程实践：Prompt 模板管理、API 调用优化（缓存/温度/thinking 模式按需开关）、增量处理、数据流水线设计、多格式输出（JSON/Markdown/HTML）。</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎯</div>
+      <h3>个人价值</h3>
+      <p>最重要的不是分数本身，而是"被看见"——看见自己的互动模式（话太多、节奏失衡），看见对方的付出（主动发起、深度分享），看见关系的走向。数据不会说谎，但需要你去解读。</p>
+    </div>
+  </div>
+
+  <div class="quote-block" style="margin-top:2.5rem;">
+    <p>"技术的终极目的不是替代人的判断，而是帮助人更清醒地做出判断。Chat Analyzer 不是告诉你好还是不好，而是给你一面镜子，让你看见关系中真实的自己。"</p>
+  </div>
+</section>
+
+<footer>
+  <p>Chat Analyzer — Built with Python + DeepSeek + Love</p>
+  <p style="margin-top:0.3rem; font-size:0.75rem;">2026.07</p>
+</footer>
+
+<script>
+// ===== Data =====
+const scores = [
+  {date:"07-04",overall:7.6,scores:{互动质量:7,对方投入度:8,自我暴露:9,节奏感:5,关系进展:8},pos:"对方主动分享MBTI、师姐家日常，并深度追问情书内容",neg:"我的发言占比58%略高，出现连续多条消息轰炸"},
+  {date:"07-05",overall:6.5,scores:{互动质量:7,对方投入度:7,自我暴露:6,节奏感:5,关系进展:7},pos:"对方主动约定下次见面，分享了观看话剧的深层情感体验",neg:"对话节奏严重失衡，存在长时间中断和深夜单方面消息轰炸"},
+  {date:"07-06",overall:6.9,scores:{互动质量:7,对方投入度:8,自我暴露:7,节奏感:5,关系进展:6},pos:"对方主动将聊天内容分享给舍友，形成了深度共情和身份认同",neg:"对方主动开启话题次数为0，需警惕互动主动权完全在己方"},
+  {date:"07-07",overall:6.9,scores:{互动质量:7,对方投入度:8,自我暴露:7,节奏感:5,关系进展:6},pos:"对方主动分享健身照片并寻求认可，暴露了曾被朋友嘲笑等脆弱经历",neg:"我方发言占比53%且出现连续多条消息轰炸"},
+  {date:"07-08",overall:7.6,scores:{互动质量:8,对方投入度:8,自我暴露:8,节奏感:5,关系进展:8},pos:"双方交换了真实姓名、电话和详细地址，关系进展重大突破",neg:"我的发言占比54%略高，节奏感稍显失衡"},
+  {date:"07-09",overall:6.6,scores:{互动质量:6,对方投入度:8,自我暴露:6,节奏感:5,关系进展:7},pos:"对方主动提出明天过来教你，涉及线下见面约定",neg:"对话中后期围绕技术问题，互动偏向工具性，情感交流深度不足"},
+  {date:"07-10",overall:5.9,scores:{互动质量:6,对方投入度:7,自我暴露:5,节奏感:5,关系进展:6},pos:"对方深夜互动频繁，主动调侃并配合角色扮演",neg:"对方平均消息长度仅7.8字且无主动开启话题，多为被动回应"},
+  {date:"07-11",overall:7.2,scores:{互动质量:7,对方投入度:8,自我暴露:8,节奏感:5,关系进展:7},pos:"对方主动询问未来规划，并表达了对你的欣赏",neg:"消息占比55%略高，对方表示困了后仍连续发送多条消息"},
+  {date:"07-12",overall:7.3,scores:{互动质量:7,对方投入度:8,自我暴露:7,节奏感:6,关系进展:8},pos:"对方主动提及已向朋友预留与你的电影约定，规划未来共同活动",neg:"发言占比57%略高，需注意给对方留出更多表达空间"},
+];
+
+const portrait = {
+  "爱好": ["健身（练胳膊和背）"],
+  "信息": [
+    "在北民大读研", "高中是实验中学", "初中六中", "家里开拉面馆的",
+    "MBTI是ENFJ，有段时间是ENFP", "用苹果手机", "宿舍11点关门",
+    "一天可担心自己睡不够7个小时", "之前一周三练，后面学习忙没坚持几周",
+    "之前给人剪辑视频", "师兄师姐都在上海", "入党卡在积极分子阶段"
+  ],
+  "愿望": [],
+  "过去": [
+    "游泳一直没学会，害怕水", "没爬过攀岩", "初中和同学一起上过补课班",
+    "小时候也自卑，但现在不会了", "刚开始健身时被朋友嘲笑",
+    "之前在西安住过一次青旅", "高中演过雷雨话剧"
+  ]
+};
+
+// ===== Render Trend Chart =====
+const tc = document.getElementById('trendChart');
+const tl = document.getElementById('trendLabels');
+const maxScore = 10;
+scores.forEach((s, i) => {
+  const bar = document.createElement('div');
+  bar.className = 'trend-bar';
+  bar.style.height = (s.overall / maxScore * 100) + '%';
+  bar.style.animationDelay = (i * 0.08) + 's';
+  bar.innerHTML = '<span class="val">' + s.overall + '</span>';
+  tc.appendChild(bar);
+
+  const label = document.createElement('div');
+  label.className = 'trend-label';
+  label.textContent = s.date;
+  tl.appendChild(label);
+});
+
+// ===== Render Score Detail =====
+const dims = ['互动质量','对方投入度','自我暴露','节奏感','关系进展'];
+const colors = ['#6366f1','#ec4899','#8b5cf6','#f59e0b','#10b981'];
+const target = scores.find(s => s.date === '07-08');
+const sd = document.getElementById('scoreDetail');
+dims.forEach((d, i) => {
+  const row = document.createElement('div');
+  row.className = 'score-row';
+  row.innerHTML = `
+    <div class="score-label">${d}</div>
+    <div class="score-bar-wrap">
+      <div class="score-bar" style="width:${target.scores[d]*10}%;background:${colors[i]};">
+        ${d === '对方投入度' ? '⭐ ×2.0' : d === '互动质量' || d === '自我暴露' ? '×1.5' : '×1.0'}
+      </div>
+    </div>
+    <div class="score-val">${target.scores[d]}</div>
+  `;
+  sd.appendChild(row);
+});
+
+// ===== Render Score Table =====
+const st = document.getElementById('scoreTable');
+st.innerHTML = `
+  <thead><tr>
+    <th>日期</th>${dims.map(d => '<th>' + d + '</th>').join('')}<th>综合</th><th>趋势</th>
+  </tr></thead>
+  <tbody>
+    ${scores.map((s, i) => {
+      let trend = '';
+      if (i > 0) {
+        const diff = s.overall - scores[i-1].overall;
+        if (diff > 0.3) trend = '<span class="score-up">↑ ' + diff.toFixed(1) + '</span>';
+        else if (diff < -0.3) trend = '<span class="score-down">↓ ' + Math.abs(diff).toFixed(1) + '</span>';
+        else trend = '<span class="score-flat">→</span>';
+      } else {
+        trend = '<span style="color:var(--text2)">—</span>';
+      }
+      return '<tr><td>' + s.date + '</td>' +
+        dims.map(d => '<td>' + s.scores[d] + '</td>').join('') +
+        '<td><strong>' + s.overall + '</strong></td>' +
+        '<td>' + trend + '</td></tr>';
+    }).join('')}
+  </tbody>
+`;
+
+// ===== Render Portrait =====
+const pg = document.getElementById('portraitGrid');
+const icons = { '爱好': '🎯', '信息': '📋', '愿望': '🌟', '过去': '📜' };
+for (const [cat, items] of Object.entries(portrait)) {
+  const div = document.createElement('div');
+  div.className = 'portrait-cat';
+  div.innerHTML = '<h4>' + (icons[cat]||'') + ' ' + cat + (items.length ? ' (' + items.length + ')' : '') + '</h4>' +
+    (items.length ? '<ul>' + items.map(i => '<li>' + i + '</li>').join('') + '</ul>' :
+    '<p style="color:var(--text2);font-size:0.8rem;">对话中尚未涉及</p>');
+  pg.appendChild(div);
+}
+
+// ===== Render Signals =====
+const sl = document.getElementById('signalsList');
+scores.forEach(s => {
+  const div = document.createElement('div');
+  div.style.cssText = 'display:flex;gap:1rem;margin-bottom:0.8rem;padding:1rem;background:var(--card);border:1px solid var(--border);border-radius:12px;';
+  div.innerHTML = `
+    <div style="flex:1;">
+      <div style="font-size:0.8rem;color:var(--accent3);margin-bottom:0.3rem;">📅 ${s.date} · 综合 ${s.overall}</div>
+      <div style="font-size:0.85rem;"><span style="color:var(--emerald);">✓</span> ${s.pos}</div>
+      <div style="font-size:0.85rem;margin-top:0.3rem;"><span style="color:var(--amber);">⚠</span> ${s.neg}</div>
+    </div>
+  `;
+  sl.appendChild(div);
+});
+</script>
+</body>
+</html>
