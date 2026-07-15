@@ -156,6 +156,18 @@ plugins:
       type: date
       locale: zh
   - tags
+  - encryptcontent:
+      title_prefix: '[加密] '
+      summary: '本页面已加密，请输入密码访问'
+      placeholder: '密码'
+      decryption_failure_message: '密码错误'
+      password_inventory:
+        social: 'lry'
+      search_index: 'encrypted'
+      remember_keys: False
+      webcrypto: False
+      esm: False
+      selfhost: True
   - redirects:
       redirect_maps:
         '找对象/朋友记录与评估.md': '社交/朋友记录与评估.md'

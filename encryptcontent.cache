@@ -1,0 +1,5 @@
+kdf_iterations: 10000
+obfuscate: {}
+password:
+  lry: f8f57d23f92ed1ea38598fbb8f7a867b7dd84de6746a1ce6df714fc5aaf254e8;9eb133a93b916cb7c5c143ba94a6bbff;91be4d936426b3b20f1d7c85d2d87c90de09b54d6279aed06f25a696881891b8
+userpass: {}
