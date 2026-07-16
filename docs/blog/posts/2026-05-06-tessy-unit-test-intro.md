@@ -1,5 +1,6 @@
 ---
 date: 2026-05-06
+slug: tessy-unit-test-intro
 authors: [minke]
 categories: [软件测试, 嵌入式]
 ---

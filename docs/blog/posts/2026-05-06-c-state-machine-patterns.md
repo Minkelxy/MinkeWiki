@@ -1,5 +1,6 @@
 ---
 date: 2026-05-06
+slug: c-state-machine-patterns
 authors: [minke]
 categories: [嵌入式, 编程规范]
 ---

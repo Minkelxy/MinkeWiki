@@ -1,5 +1,6 @@
 ---
 date: 2026-05-06
+slug: chip-driver-fault-diag
 authors: [minke]
 categories: [芯片驱动, 嵌入式]
 ---

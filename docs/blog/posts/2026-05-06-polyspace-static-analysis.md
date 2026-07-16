@@ -1,5 +1,6 @@
 ---
 date: 2026-05-06
+slug: polyspace-static-analysis
 authors: [minke]
 categories: [软件测试, 嵌入式]
 ---

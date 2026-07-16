@@ -1,5 +1,6 @@
 ---
 date: 2026-05-06
+slug: mcal-config-guide
 authors: [minke]
 categories: [AUTOSAR, 嵌入式]
 ---

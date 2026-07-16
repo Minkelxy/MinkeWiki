@@ -1,5 +1,6 @@
 ---
 date: 2026-05-06
+slug: motor-isr-breakdown
 authors: [minke]
 categories: [电机控制, 嵌入式]
 ---
