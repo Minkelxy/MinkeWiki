@@ -1,0 +1,4 @@
+/* 中文段落首行缩进 */
+article p {
+  text-indent: 2em;
+}

@@ -37,6 +37,7 @@ nav:
     - 恒润疗养院: 剧本/恒润疗养院.md
   - 社交:
     - 第0段记录: 社交/第0段记录.md
+    - 审查清单: 社交/审查清单.md
     - 学习笔记: 社交/学习笔记.md
     - 画像: 社交/画像.md
     - AI评估:
@@ -213,6 +214,8 @@ markdown_extensions:
   - md_in_html
 
 # 额外配置
+extra_css:
+  - stylesheets/extra.css
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
 extra:
