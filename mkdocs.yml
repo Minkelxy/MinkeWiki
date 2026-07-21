@@ -131,6 +131,10 @@ theme:
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.tracking
+    - navigation.instant
+    - navigation.instant.progress
+    - toc.integrate
     - search.suggest
     - search.highlight
     - content.code.copy
