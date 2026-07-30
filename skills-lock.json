@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "novel-assistant": {
+      "source": "duiniwukenaihe/novel-assistant-skill",
+      "sourceType": "github",
+      "skillPath": "skills/novel-assistant/SKILL.md",
+      "computedHash": "b1f510109c4e8ac2af90daa67a8005454a58b6b642c95dd513a38ce8b4885d7a"
+    },
+    "novel-review": {
+      "source": "wanikua/danghuangshang",
+      "sourceType": "github",
+      "skillPath": "skills/novel-review/SKILL.md",
+      "computedHash": "b7ffeeec3f791e407dc64943c39328ec1e1978ba2018c293e97592aed628a18e"
+    }
+  }
+}
