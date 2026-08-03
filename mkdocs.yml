@@ -39,6 +39,7 @@ nav:
     - 第0段记录 (9971字): 社交/第0段记录.md
     - 学习笔记: 社交/学习笔记.md
     - 画像: 社交/画像.md
+    - 时间节点: 社交/时间节点.md
     - AI评估:
       - 评估首页: 社交/AI评估/README.md
       - 评分总表: 社交/AI评估/评分总表.md
@@ -46,6 +47,7 @@ nav:
       - 待跟进: 社交/AI评估/待跟进.md
       - 阶段分析: 社交/AI评估/阶段分析.md
       - 日记:
+        - 日记总览: 社交/AI评估/日记/index.md
         - 07-04: 社交/AI评估/日记/2026-07-04.md
         - 07-05: 社交/AI评估/日记/2026-07-05.md
         - 07-06: 社交/AI评估/日记/2026-07-06.md
@@ -177,6 +179,7 @@ plugins:
       separator: '[\s\-\.]+'
   - git-revision-date-localized:
       enable_creation_date: true
+      enable_git_follow: false
       type: date
       locale: zh
   - tags
