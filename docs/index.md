@@ -125,6 +125,7 @@
 
 ## 🔗 相关链接
 
+- 📁 [GitHub项目索引](GitHub项目索引.md)
 - 🌐 [GitHub仓库](https://github.com/Minkelxy/MinkeWiki)
 - 📧 联系方式：Minkeskl
 

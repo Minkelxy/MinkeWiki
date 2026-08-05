@@ -1,0 +1,61 @@
+# GitHub 项目索引
+
+我的 GitHub 账号 [Minkelxy](https://github.com/Minkelxy) 上的项目与本站文档的对应关系。点击仓库名直达源码。
+
+---
+
+## 🎮 游戏自动化
+
+| 仓库 | Star | 语言 | 对应文档 |
+|------|------|------|---------|
+| [NZM_CMD](https://github.com/Minkelxy/NZM_CMD) | ★87 | Rust | [逆战未来CMD](游戏/逆战未来/逆战未来CMD.md) - 逆战未来管理工具 |
+| [MINKE-s-Indexed-NiZhan-Keypoint-Environment](https://github.com/Minkelxy/MINKE-s-Indexed-NiZhan-Keypoint-Environment) | ★16 | Rust | [逆战未来](游戏/逆战未来/逆战未来.md) - 逆战关键点识别环境 |
+
+## 🛠️ 制作项目
+
+| 仓库 | Star | 语言 | 对应项目 |
+|------|------|------|---------|
+| [Minke](https://github.com/Minkelxy/Minke) | ★5 | Python | 制作目录 - hitbox（Minke Is Not Keyboard Emulator） |
+| [xiaoai_switch2_wake_up](https://github.com/Minkelxy/xiaoai_switch2_wake_up) | ★15 | C++ | 制作目录 - switch2唤醒 |
+| [USBFileBridge](https://github.com/Minkelxy/USBFileBridge) | - | Rust | 制作目录 - USB数据传输 |
+| [time_camera](https://github.com/Minkelxy/time_camera) | - | - | [定时拍照装置](制作/定时拍照装置.md) |
+| [ESP32_JOYCON](https://github.com/Minkelxy/ESP32_JOYCON) | - | C | 制作目录 - switch2模拟手柄 |
+| [flowchart](https://github.com/Minkelxy/flowchart) | - | - | 制作目录 - C语言代码生成流程图 |
+
+## 🏃 健身
+
+| 仓库 | 语言 | 对应文档 |
+|------|------|---------|
+| [TrainingPlan](https://github.com/Minkelxy/TrainingPlan) | - | [周训练计划](健身/健身计划/周训练计划.md) |
+
+## 📡 直播 / 创业
+
+| 仓库 | 语言 | 对应文档 |
+|------|------|---------|
+| [douyin_LIVE_Tool](https://github.com/Minkelxy/douyin_LIVE_Tool) | TypeScript | [抖音直播](创业/抖音直播/目录.md) |
+
+## 📦 其他 / 待归类
+
+| 仓库 | 语言 | 说明 |
+|------|------|------|
+| [Couple](https://github.com/Minkelxy/Couple) | Python | 桌面情侣套件（相册轮播/加密信箱/打卡/旅行地图/五子棋） |
+| [desktop-avatar-model](https://github.com/Minkelxy/desktop-avatar-model) | - | Live2D 桌面虚拟形象模型 |
+| [couple-pet](https://github.com/Minkelxy/couple-pet) | JavaScript | 待归类 |
+| [card-designer](https://github.com/Minkelxy/card-designer) | JavaScript | 卡牌设计工具 |
+| [ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism) | TypeScript | 宁夏旅游 |
+| [link-door](https://github.com/Minkelxy/link-door) | - | 待归类 |
+| [script-kill-skill](https://github.com/Minkelxy/script-kill-skill) | - | 待归类 |
+| [kanban](https://github.com/Minkelxy/kanban) | - | 待归类 |
+| [adc2amp](https://github.com/Minkelxy/adc2amp) | Rust | 待归类 |
+| [MinkeWiki](https://github.com/Minkelxy/MinkeWiki) | ★0 | Python | 本站点仓库 |
+
+---
+
+## 🔗 相关链接
+
+- [返回首页](index.md)
+
+---
+
+*创建日期：2026-08-05*
+*数据来源：GitHub API，star 数为抓取时刻快照*

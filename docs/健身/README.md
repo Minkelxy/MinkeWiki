@@ -270,6 +270,7 @@ YYYY-MM-DD_部位_角度.jpg
 
 - [开源工具参考](开源工具参考.md)
 - [训练数据复盘与进阶](训练数据复盘与进阶.md)
+- [GitHub: TrainingPlan](https://github.com/Minkelxy/TrainingPlan)（训练计划源码）
 - [技术文档库](../index.md)
 
 ---

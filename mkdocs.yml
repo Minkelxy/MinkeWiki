@@ -5,6 +5,7 @@ nav:
     - 标签: tags.md
   - 博客:
     - blog/index.md
+  - GitHub项目索引: GitHub项目索引.md
   - 制作项目:
     - 制作目录: 制作/制作目录.md
     - 开源参考项目: 制作/开源参考项目.md
