@@ -100,6 +100,7 @@ nav:
       - douyin-live-go分析: 创业/抖音直播/douyin-live-go-analysis.md
   - 知识库:
     - 知识总览: 知识/目录.md
+    - 开源参考项目: 知识/开源参考项目.md
     - 电机控制:
       - 电机控制概述: 知识/电机控制/README.md
       - FOC学习笔记: 知识/电机控制/FOC学习笔记.md
