@@ -168,6 +168,7 @@ nav:
       - 软件功能安全学习: 知识/AUTOSAR/软件功能安全学习.md
       - MCAL开发配置指南: 知识/AUTOSAR/MCAL开发配置指南.md
       - AUTOSAR OS配置指南: 知识/AUTOSAR/AUTOSAR_OS配置指南.md
+      - AUTOSAR通信栈详解: 知识/AUTOSAR/通信栈详解.md
       - AUTOSAR学习路线: 知识/AUTOSAR/学习路线.md
     - 编程规范:
       - 编程规范概述: 知识/编程规范/README.md
