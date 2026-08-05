@@ -154,6 +154,7 @@ nav:
     - RTOS:
       - RTOS概述: 知识/RTOS/README.md
       - 自制RTOS: 知识/RTOS/自制RTOS.md
+      - RTOS学习路线: 知识/RTOS/学习路线.md
     - 现场总线:
       - 现场总线概述: 知识/现场总线/README.md
       - CAN总线协议详解: 知识/现场总线/CAN总线协议详解.md
