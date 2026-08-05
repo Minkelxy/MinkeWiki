@@ -152,6 +152,17 @@ nav:
     - 装修计划: 小屋装修/index.md
     - 智能家居开源参考: 小屋装修/智能家居开源参考.md
     - 网络与存储规划: 小屋装修/网络与存储规划.md
+  - 个人项目:
+    - 个人项目目录: 个人项目/目录.md
+    - 桌面情侣套件 Couple: 个人项目/Couple.md
+    - 双人共享桌宠 couple-pet: 个人项目/couple-pet.md
+    - 卡牌设计器 card-designer: 个人项目/card-designer.md
+    - 宁夏旅游地图: 个人项目/ningxia-tourism.md
+    - ADC Pro Toolkit: 个人项目/adc2amp.md
+    - Live2D虚拟形象: 个人项目/desktop-avatar-model.md
+    - 剧本杀技能: 个人项目/script-kill-skill.md
+    - 看板 kanban: 个人项目/kanban.md
+    - link-door: 个人项目/link-door.md
   - 健身:
     - 健身首页: 健身/README.md
     - 开源工具参考: 健身/开源工具参考.md
