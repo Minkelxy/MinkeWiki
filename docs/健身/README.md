@@ -266,6 +266,14 @@ YYYY-MM-DD_部位_角度.jpg
 
 ---
 
+## 🎬 训练视频
+
+**引体向上一点一点进步喽**
+
+<iframe src="https://player.bilibili.com/player.html?bvid=BV1tFTP65EaG&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
+
+---
+
 ## 🔗 相关链接
 
 - [开源工具参考](开源工具参考.md)
