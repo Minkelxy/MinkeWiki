@@ -178,6 +178,7 @@ nav:
       - 芯片驱动概述: 知识/芯片驱动/README.md
       - 开路诊断: 知识/芯片驱动/开路诊断.md
       - 故障诊断: 知识/芯片驱动/故障诊断.md
+      - 芯片驱动学习路线: 知识/芯片驱动/学习路线.md
     - AUTOSAR:
       - AUTOSAR概述: 知识/AUTOSAR/README.md
       - AUTOSAR_DIO: 知识/AUTOSAR/AUTOSAR_DIO.md
