@@ -21,11 +21,15 @@ cd chat-analyzer && python -m pytest tests/   # chat-analyzer 单元测试（测
   pip install mkdocs-encryptcontent-plugin mkdocs-git-revision-date-localized-plugin mkdocs-redirects
   ```
 - 部署自动触发，无需手动操作。每晚 23:47 cron 运行 `scripts/auto_backup.sh`：自动 git 提交（`auto: daily backup YYYY-MM-DD`）并尝试 push，周日额外生成 tar 快照到 `/home/minke/backup/`（保留最近 4 份）。
+- **Git 提交注意**：提交邮箱须为 GitHub 已验证邮箱（当前 `minkeskl@qq.com`；曾用 `minkelxy@example.com` 导致 push 403「verify your email」）。本机到 GitHub 网络不稳，push 常超时/断连：可用后台 push、让用户 `! git push origin main` 手动推，或等每晚备份脚本自动推。
 
 ## 内容架构
 
 - `docs/` 为站点内容源，按中文分类目录组织（`知识/`、`制作/`、`社交/`、`健身/`、`创业/`、`游戏/`、`音乐/`、`剧本/` 等）。
-- **`mkdocs.yml` 的 `nav` 为手工维护**：新增/删除文档必须同步更新 nav 条目，否则不会出现在站点导航中。「社交 → AI评估 → 日记」下是每天一篇的列表，需逐条追加。
+- **`mkdocs.yml` 的 `nav` 为手工维护**：新增/删除文档必须同步更新 nav 条目，否则不会出现在站点导航中。「社交 → AI评估 → 日记」已固定指向 `日记/index.md`，不再逐条追加。
+- **`docs/行动记录/` 命名约定**：行程记录用 `银川MMDD.md`/`天津MMDD.md`（如 `银川0704.md`），通用清单用语义名（如 `出行准备清单.md`）；新文件必须登记「行动记录」nav 栏目。不要用"1""2"这类无意义文件名（会无法定位、不进站点）。
+- **首页 `docs/index.md` 是纯栏目导航**（表格列出各栏目入口，不列逐篇文档）；文档细节由 nav 承担，避免首页索引过时。
+- **空文件/未完成文档不进 nav**：0 字节占位文件不登记 nav（点了是空白页），内容写完后登记再发布。
 - 插件约定：`encryptcontent` 支持页面加密（加密页不进入明文搜索索引）；`blog` 插件管理 `blog/` 目录（文章在 `docs/blog/posts/`）；`tags` 插件依赖 `docs/tags.md` 标签页。
 - 正文支持 mermaid 图（``` mermaid 代码块，由 unpkg 加载渲染）和 admonition 提示框。
 - **`docs/社交/` 是目前最活跃、持续维护的部分**：
@@ -46,10 +50,10 @@ cd chat-analyzer && python -m pytest tests/   # chat-analyzer 单元测试（测
 - **chat-analyzer 自动生成**（从真实聊天记录分析，见下节）
 - **`/diary` 技能手写**（用户口头叙述 → 按 diary SKILL 撰写）
 
-**写入后固定三步**（新日期必做，缺一不可）：
+**写入后固定两步**（新日期必做）：
 1. 新建/更新 `docs/社交/AI评估/日记/<YYYY-MM-DD>.md`
 2. 追加 `docs/社交/AI评估/日记/index.md`：`- [MM-DD](YYYY-MM-DD.md)`（按日期升序）
-3. 追加 `mkdocs.yml`「社交 → AI评估 → 日记」列表：`- MM-DD: 社交/AI评估/日记/YYYY-MM-DD.md`
+（「社交 → AI评估 → 日记」nav 已固定指向 `日记/index.md`，无需逐条登记）
 
 ### 2. chat-analyzer 分析流水线（`chat-analyzer/`）
 
@@ -63,9 +67,9 @@ cd chat-analyzer && python -m pytest tests/   # chat-analyzer 单元测试（测
 
 > ⚠️ `export` 会用 `output/` 覆盖 `docs/社交/AI评估/` 下同名文件（含 `日记/`）；若站内有人工润色内容需先备份，或在 export 后重新应用。`export` 不会生成 `日记/index.md`（手工维护，见上）。
 
-### 3. 长文日记（`docs/社交/第0段记录.md`）
+### 3. 长文日记（`第0段记录.md` / `第1段记录.md`）
 
-人工撰写、持续追加，非 AI 生成，无固定格式约束。
+人工撰写、持续追加，非 AI 生成，无固定格式约束。分段约定：第0段记录止于 8-3（从 7-4 初次认识起）；第1段记录从 8-4 月度纪念日节点起，按日期分节（`## 8-4`、`## 8-5`…）。日期标题一律用 `##` 二级标题（曾出现 `# 8-10` 一级标题破坏层级的问题）。
 
 ### 4. 每次改动后
 
