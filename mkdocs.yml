@@ -255,7 +255,6 @@ theme:
   features:
     - navigation.tabs
     - navigation.sections
-    - navigation.expand
     - navigation.top
     - navigation.tracking
     - navigation.instant
