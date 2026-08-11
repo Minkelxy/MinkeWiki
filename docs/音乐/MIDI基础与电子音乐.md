@@ -1,6 +1,6 @@
 # MIDI 基础与电子音乐
 
-MIDI（Musical Instrument Digital Interface，乐器数字接口）是电子乐器、电脑与硬件之间的标准通信协议。理解 MIDI 是玩转[电子琴/MIDI音源等制作项目](../制作/制作目录.md)和[词谱改编](词谱/传达不到的爱恋改编.md)的基础。
+MIDI（Musical Instrument Digital Interface，乐器数字接口）是电子乐器、电脑与硬件之间的标准通信协议。理解 MIDI 是玩转[电子琴/MIDI音源等制作项目](../制作/README.md)和[词谱改编](词谱/传达不到的爱恋改编.md)的基础。
 
 ---
 

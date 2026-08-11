@@ -24,7 +24,7 @@ Live2D 桌面虚拟形象模型——角色设计、绑定与运行时。
 
 ## 🔗 相关链接
 
-- [个人项目目录](目录.md)
+- [个人项目目录](README.md)
 - [GitHub项目索引](../GitHub项目索引.md)
 - [双人共享桌宠 couple-pet](couple-pet.md)
 

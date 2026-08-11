@@ -187,7 +187,7 @@ result list
 ## 🔗 相关链接
 
 - [返回软件测试知识](./README.md)
-- [返回知识库](../目录.md)
+- [返回知识库](../README.md)
 - [Tessy 使用指南](./Tessy使用指南.md)
 
 ---

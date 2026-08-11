@@ -71,7 +71,7 @@
 
 ## 🔗 相关链接
 
-- [返回制作目录](制作目录.md)
+- [返回制作目录](README.md)
 - [项目排期建议](项目排期建议.md)
 - [制作项目开源参考](开源参考项目.md)（GP2040-CE）
 - [ESP32_JOYCON](https://github.com/Minkelxy/ESP32_JOYCON)（自研仓库）

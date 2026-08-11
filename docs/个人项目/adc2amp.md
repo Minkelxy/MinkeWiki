@@ -43,7 +43,7 @@ cargo run
 
 ## 🔗 相关链接
 
-- [个人项目目录](目录.md)
+- [个人项目目录](README.md)
 - [GitHub项目索引](../GitHub项目索引.md)
 - [芯片驱动](../知识/芯片驱动/README.md)
 
