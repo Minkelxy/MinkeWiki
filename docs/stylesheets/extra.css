@@ -1,4 +1,100 @@
+/* ===== 中文排版 ===== */
 /* 中文段落首行缩进 */
 article p {
   text-indent: 2em;
+}
+
+/* ===== 链接 ===== */
+.md-content a {
+  text-decoration: none;
+}
+.md-content a:hover {
+  text-decoration: underline;
+}
+
+/* ===== 引用块 ===== */
+.md-typeset blockquote {
+  border-left: 4px solid var(--md-primary-fg-color);
+  background: rgba(33, 150, 243, 0.06);
+  border-radius: 0 0.4rem 0.4rem 0;
+  padding: 0.5rem 1rem;
+}
+
+/* ===== 标题 ===== */
+.md-typeset h2 {
+  margin-top: 2.2rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--md-primary-fg-color--lightest);
+}
+.md-typeset h3 {
+  margin-top: 1.6rem;
+}
+
+/* ===== 表格 ===== */
+.md-typeset table:not([class]) {
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+.md-typeset table:not([class]) tr:hover {
+  background: rgba(33, 150, 243, 0.05);
+}
+
+/* ===== 代码块 ===== */
+.md-typeset pre > code {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 提示框（admonition）===== */
+.md-typeset .admonition {
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+.md-typeset .admonition > .admonition-title {
+  border-radius: 7px 7px 0 0;
+}
+
+/* ===== 首页卡片导航 ===== */
+.nav-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+}
+.nav-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-left: 4px solid var(--md-primary-fg-color);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  background: var(--md-default-bg-color);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nav-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+.nav-card > p:first-child {
+  margin: 0;
+}
+.nav-card a {
+  font-weight: 600;
+}
+.nav-card .nav-desc {
+  text-indent: 0 !important;
+  margin: 0.3rem 0 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.9em;
+}
+
+/* ===== 滚动条 ===== */
+.md-sidebar__scrollwrap::-webkit-scrollbar,
+.md-main__inner::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.md-sidebar__scrollwrap::-webkit-scrollbar-thumb,
+.md-main__inner::-webkit-scrollbar-thumb {
+  background: var(--md-default-fg-color--lighter);
+  border-radius: 3px;
 }
