@@ -252,6 +252,9 @@ nav:
 theme:
   name: material
   language: zh
+  icon:
+    logo: material/library
+  copyright: © 2026 Minke
   features:
     - navigation.tabs
     - navigation.sections

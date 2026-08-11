@@ -30,6 +30,7 @@ cd chat-analyzer && python -m pytest tests/   # chat-analyzer 单元测试（测
 - **`docs/行动记录/` 命名约定**：行程记录用 `银川MMDD.md`/`天津MMDD.md`（如 `银川0704.md`），通用清单用语义名（如 `出行准备清单.md`）；新文件必须登记「行动记录」nav 栏目。不要用"1""2"这类无意义文件名（会无法定位、不进站点）。
 - **首页 `docs/index.md` 是纯栏目导航**（表格列出各栏目入口，不列逐篇文档）；文档细节由 nav 承担，避免首页索引过时。
 - **空文件/未完成文档不进 nav**：0 字节占位文件不登记 nav（点了是空白页），内容写完后登记再发布。
+- **栏目入口页命名**：各栏目目录页统一用 `README.md` 或 `index.md`（MkDocs 对 `index.md` 有目录首页语义）；新栏目建议用 `README.md`（如 `观影/README.md`），避免 `目录.md`/`制作目录.md` 等历史遗留变体。
 - 插件约定：`encryptcontent` 支持页面加密（加密页不进入明文搜索索引）；`blog` 插件管理 `blog/` 目录（文章在 `docs/blog/posts/`）；`tags` 插件依赖 `docs/tags.md` 标签页。
 - 正文支持 mermaid 图（``` mermaid 代码块，由 unpkg 加载渲染）和 admonition 提示框。
 - **`docs/社交/` 是目前最活跃、持续维护的部分**：
