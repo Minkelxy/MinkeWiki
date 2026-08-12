@@ -1,3 +1,8 @@
+---
+tags:
+  - AUTOSAR
+---
+
 # AUTOSAR OS 配置指南
 
 AUTOSAR OS 操作系统配置指南，涵盖 Task、ISR、Counter、Alarm、Schedule Table、Event、Resource 等核心模块。

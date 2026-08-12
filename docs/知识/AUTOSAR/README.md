@@ -1,3 +1,8 @@
+---
+tags:
+  - AUTOSAR
+---
+
 # AUTOSAR知识
 
 这部分文档涵盖了AUTOSAR相关的知识，包括标准模块和功能安全。

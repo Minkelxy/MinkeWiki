@@ -1,3 +1,8 @@
+---
+tags:
+  - 现场总线
+---
+
 # CAN FD 详解
 
 CAN FD（Flexible Data-rate）详解——CAN 2.0 的进化版。承接[CAN总线协议详解](CAN总线协议详解.md)（原文第 5 章只概述，这里展开）。

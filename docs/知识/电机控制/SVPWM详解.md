@@ -1,3 +1,8 @@
+---
+tags:
+  - 电机控制
+---
+
 # SVPWM 详解
 
 空间矢量脉宽调制（Space Vector PWM）原理与实现——FOC 输出环节的核心。承接[FOC学习笔记](FOC学习笔记.md)与[BLDC代码分析](BLDC代码分析.md)。
