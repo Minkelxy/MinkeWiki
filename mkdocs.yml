@@ -353,6 +353,12 @@ markdown_extensions:
       toc_depth: 3
   - attr_list
   - md_in_html
+  - footnotes
+  - pymdownx.mark
+  - pymdownx.caret
+  - pymdownx.tilde
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 # 额外配置
 extra_css:
