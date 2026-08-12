@@ -1,3 +1,9 @@
+---
+tags:
+  - AUTOSAR
+  - MCAL
+---
+
 # MCAL开发配置指南
 
 MCAL（Microcontroller Abstraction Layer）开发配置指南，基于 Infineon TC3xx（TC377）平台和 Elektrobit EB-tresos 工具。
