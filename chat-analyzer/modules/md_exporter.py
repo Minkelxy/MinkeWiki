@@ -131,6 +131,31 @@ class MdExporter:
                     f"{st.get('avg_me_len','?')}字 | {st.get('avg_other_len','?')}字 |"
                 )
 
+        # 评分趋势图（ECharts，md_in_html 渲染）
+        import json as _json
+        chart_data = [
+            {"date": s["date"], "overall": s["overall"], "scores": s.get("scores", {})}
+            for s in scores
+        ]
+        lines.append("")
+        lines.append("## 评分趋势图")
+        lines.append("")
+        lines.append('<div id="score-chart" style="width:100%;height:360px;margin:8px 0;"></div>')
+        lines.append('<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>')
+        lines.append("<script>")
+        lines.append("document.addEventListener('DOMContentLoaded', function(){")
+        lines.append("var el=document.getElementById('score-chart');")
+        lines.append("if(!el||typeof echarts==='undefined')return;")
+        lines.append("var c=echarts.init(el);")
+        lines.append(f"var data={_json.dumps(chart_data, ensure_ascii=False)};")
+        lines.append("var dates=data.map(function(d){return d.date});")
+        lines.append("var dims=['互动质量','对方投入度','自我暴露','节奏感','关系进展'];")
+        lines.append("var s=[{name:'综合',type:'line',lineStyle:{width:3},data:data.map(function(d){return d.overall})}];")
+        lines.append("dims.forEach(function(dm){s.push({name:dm,type:'line',data:data.map(function(d){return d.scores[dm]})});});")
+        lines.append("c.setOption({title:{text:'评分趋势',left:'center',textStyle:{fontSize:14}},tooltip:{trigger:'axis'},legend:{top:26,type:'scroll'},grid:{left:50,right:20,top:70,bottom:30},xAxis:{type:'category',data:dates},yAxis:{type:'value',min:0,max:10},series:s});")
+        lines.append("});")
+        lines.append("</script>")
+
         path.write_text("\n".join(lines), encoding="utf-8")
 
     def _write_todos(self, path: Path, todos: list) -> None:
