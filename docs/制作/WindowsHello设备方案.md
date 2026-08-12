@@ -1,3 +1,8 @@
+---
+tags:
+  - 制作
+---
+
 # Windows Hello 设备方案
 
 兼容 Windows Hello 的**认证设备**——计划中项目，先做 USB 安全密钥（FIDO2），进阶再做生物识别。

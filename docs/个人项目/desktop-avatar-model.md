@@ -1,3 +1,8 @@
+---
+tags:
+  - 个人项目
+---
+
 # Live2D 桌面虚拟形象模型 desktop-avatar-model
 
 Live2D 桌面虚拟形象模型——角色设计、绑定与运行时。

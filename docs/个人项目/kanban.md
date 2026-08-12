@@ -1,3 +1,8 @@
+---
+tags:
+  - 个人项目
+---
+
 # 看板 kanban
 
 - **仓库**：[github.com/Minkelxy/kanban](https://github.com/Minkelxy/kanban)

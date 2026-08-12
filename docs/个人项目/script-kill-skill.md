@@ -1,3 +1,8 @@
+---
+tags:
+  - 个人项目
+---
+
 # 剧本杀技能 script-kill-skill
 
 - **仓库**：[github.com/Minkelxy/script-kill-skill](https://github.com/Minkelxy/script-kill-skill)

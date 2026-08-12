@@ -1,3 +1,8 @@
+---
+tags:
+  - 制作
+---
+
 # switch2模拟手柄方案
 
 自制兼容 Switch 2 的模拟手柄，对应[项目排期建议](项目排期建议.md)第 5 月槽位。关联你的 [ESP32_JOYCON](https://github.com/Minkelxy/ESP32_JOYCON) 仓库和成熟的开源固件。
