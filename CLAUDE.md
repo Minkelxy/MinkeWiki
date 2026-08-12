@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pip install -r requirements.txt   # 安装依赖（mkdocs、mkdocs-material 等）
 mkdocs serve                      # 本地开发服务器，热重载，访问 http://localhost:8000
 mkdocs build                      # 构建静态站点到 site/（gitignored）
-cd chat-analyzer && python -m pytest tests/   # chat-analyzer 单元测试（测试 parser 等模块）
+cd chat-analyzer && python3 -m pytest tests/   # chat-analyzer 单元测试（⚠️ 须用 python3，`python` 是 Python 2）
 ```
 
 - `site/` 已 gitignore，构建产物无需提交。
@@ -34,8 +34,9 @@ cd chat-analyzer && python -m pytest tests/   # chat-analyzer 单元测试（测
 - **栏目入口页命名**：各栏目目录页统一用 `README.md` 或 `index.md`——MkDocs 把子目录下的 `README.md`/`index.md` 当作目录首页，渲染 URL 为 `目录/`（如 `知识/README.md` → `知识/`）；新栏目建议用 `README.md`（如 `观影/README.md`），避免 `目录.md`/`制作目录.md` 等历史遗留变体。`mkdocs.yml` 的 `redirects` 插件已为历史 `目录.md` 路径配置重定向。
 - **nav 顶层按四大类分组**（`技术` / `创作` / `生活` / `事业`），外加 `首页`、`GitHub项目索引` 顶层入口；各栏目内第一个条目是其 `README.md` 入口。
 - **标签系统**：`tags` 插件已启用、`docs/tags.md` 为标签索引页（自动生成）。新文档建议在 YAML frontmatter 加 `tags:`（如 `tags: [电机控制, FOC]`），使标签页聚合跨栏目内容（全站约 160 个文档已加标签）；空文件/占位不加。
-- 插件约定：`encryptcontent` 支持页面加密（加密页不进入明文搜索索引）；`blog` 插件管理 `blog/` 目录（文章在 `docs/blog/posts/`）；`tags` 插件依赖 `docs/tags.md` 标签页。
-- 正文支持 mermaid 图（``` mermaid 代码块，由 unpkg 加载渲染）和 admonition 提示框。
+- 插件约定：`encryptcontent` 支持页面加密（加密页不进入明文搜索索引）；`blog` 插件管理 `docs/blog/posts/`（文章 frontmatter 需 `date`/`slug`/`authors`/`categories`，作者定义在 `docs/blog/.authors.yml`）；`tags` 插件依赖 `docs/tags.md` 标签页。
+- 正文能力：mermaid 图（``` mermaid 代码块）、admonition 提示框、emoji（`:material-xxx:`/`:smile:`，需 `emoji` 包，已装）、脚注 `[^1]`、`==标记高亮==`、`~~删除线~~`、任务列表 `- [x]`。
+- **`md_in_html` 内嵌图表**：页面可用 HTML + `<script>` 内嵌 ECharts（示例见 `健身/健身数据/训练记录.md`、`社交/AI评估/评分总表.md`）；注意隐藏 tab 里 `init` 的图表需在切换时 `chart.resize()`，数据要先按日期排序。
 - **`docs/社交/` 是目前最活跃、持续维护的部分**：
   - `第0段记录.md` — 长文日记（正在持续撰写，非 AI 生成）
   - `AI评估/日记/<YYYY-MM-DD>.md` — 每日 AI 生成的日记，配套 `AI评估/日记/index.md` 索引，以及评分总表、人物画像、待跟进、阶段分析等报告
@@ -64,8 +65,8 @@ cd chat-analyzer && python -m pytest tests/   # chat-analyzer 单元测试（测
 从聊天记录批量生成评估报告，命令在 `chat-analyzer/` 目录执行：
 
 1. WeChatMsg 导出聊天记录 → `data/chat_logs/raw/<日期>.txt`（该目录 gitignored）
-2. 全流程：`python main.py --date YYYY-MM-DD`（parse → summarize → evaluate → portrait，中间产物在 `output/`）
-3. 发布到站点：`python main.py export`（默认写入 `../docs/社交/AI评估/`，覆盖 README/评分总表/人物画像/待跟进/阶段分析，并复制 `output/diary/` 到 `日记/`）
+2. 全流程：`python3 main.py --date YYYY-MM-DD`（parse → summarize → evaluate → portrait，中间产物在 `output/`；**所有命令须用 `python3`，`python` 指向 Python 2**）
+3. 发布到站点：`python3 main.py export`（默认写入 `../docs/社交/AI评估/`，覆盖 README/评分总表/人物画像/待跟进/阶段分析，并复制 `output/diary/` 到 `日记/`；`评分总表.md` 由 `md_exporter` 自动内嵌 ECharts 评分趋势图）
 4. 常用变体：`--all` 批量所有日期（自动跳过已处理）、`--force` 强制重跑、`--dry` 预览不写、`report` 长期趋势、`stage` 阶段分析、`html` HTML 综合报告、`portrait-show` 查看画像、`dedup` 画像去重、`stats` 每日统计
 5. 配置 `config.yaml` 内含 DeepSeek API key（gitignored），可用环境变量 `DEEPSEEK_API_KEY` 替代
 
