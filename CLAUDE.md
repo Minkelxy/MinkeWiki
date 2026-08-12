@@ -33,6 +33,7 @@ cd chat-analyzer && python -m pytest tests/   # chat-analyzer 单元测试（测
 - **空文件/未完成文档不进 nav**：0 字节占位文件不登记 nav（点了是空白页），内容写完后登记再发布。
 - **栏目入口页命名**：各栏目目录页统一用 `README.md` 或 `index.md`——MkDocs 把子目录下的 `README.md`/`index.md` 当作目录首页，渲染 URL 为 `目录/`（如 `知识/README.md` → `知识/`）；新栏目建议用 `README.md`（如 `观影/README.md`），避免 `目录.md`/`制作目录.md` 等历史遗留变体。`mkdocs.yml` 的 `redirects` 插件已为历史 `目录.md` 路径配置重定向。
 - **nav 顶层按四大类分组**（`技术` / `创作` / `生活` / `事业`），外加 `首页`、`GitHub项目索引` 顶层入口；各栏目内第一个条目是其 `README.md` 入口。
+- **标签系统**：`tags` 插件已启用、`docs/tags.md` 为标签索引页（自动生成）。新文档建议在 YAML frontmatter 加 `tags:`（如 `tags: [电机控制, FOC]`），使标签页聚合跨栏目内容（全站约 160 个文档已加标签）；空文件/占位不加。
 - 插件约定：`encryptcontent` 支持页面加密（加密页不进入明文搜索索引）；`blog` 插件管理 `blog/` 目录（文章在 `docs/blog/posts/`）；`tags` 插件依赖 `docs/tags.md` 标签页。
 - 正文支持 mermaid 图（``` mermaid 代码块，由 unpkg 加载渲染）和 admonition 提示框。
 - **`docs/社交/` 是目前最活跃、持续维护的部分**：
