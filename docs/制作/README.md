@@ -110,6 +110,36 @@ tags:
 
 <iframe src="https://player.bilibili.com/player.html?bvid=BV1F22PBhEzJ&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
 
+**更多演示**
+
+**【ESP32】switch2远程唤醒**（播放9.3k）
+
+<iframe src="https://player.bilibili.com/player.html?bvid=BV12Ns6zBEBA&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
+
+**代码生成流程图工具**（播放1.5万）
+
+<iframe src="https://player.bilibili.com/player.html?bvid=BV18Xcge3Eyn&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
+
+**【赛博点子王】名侦探柯南 侦探徽章**
+
+<iframe src="https://player.bilibili.com/player.html?bvid=BV17j411a7aD&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
+
+**沁恒CH582 键盘输入捕获器**
+
+<iframe src="https://player.bilibili.com/player.html?bvid=BV1N94y157YT&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
+
+**【ESP32】自制MP3**
+
+<iframe src="https://player.bilibili.com/player.html?bvid=BV1Bp4y1G7kk&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
+
+**【UNITY】导弹追踪模拟**
+
+<iframe src="https://player.bilibili.com/player.html?bvid=BV1gR4y1v7Kf&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
+
+**【STM32】基于STM32F103和ESP8266的网络时钟**（播放9.7k）
+
+<iframe src="https://player.bilibili.com/player.html?bvid=BV1FM4y1K7xs&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;aspect-ratio:16/9"></iframe>
+
 ---
 
 ## 🔗 相关链接
