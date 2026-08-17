@@ -12,6 +12,12 @@
       "sourceType": "github",
       "skillPath": "skills/novel-review/SKILL.md",
       "computedHash": "b7ffeeec3f791e407dc64943c39328ec1e1978ba2018c293e97592aed628a18e"
+    },
+    "human-writing": {
+      "source": "KKKKhazix/human-writing",
+      "sourceType": "github",
+      "skillPath": "human-writing/SKILL.md",
+      "computedHash": "70a6e8c92ce74ac157e2ed11d022579aa67027610c47435a187296456008bcf3"
     }
   }
 }

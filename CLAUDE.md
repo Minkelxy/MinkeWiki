@@ -105,7 +105,7 @@ cd chat-analyzer && python3 -m pytest tests/   # chat-analyzer 单元测试（�
 - 自定义技能：
   - `diary` — 写日记（见上，有严格的文件/索引/nav 流程）
   - `article-review` — 通用文章审查（博客、日记、笔记、技术文档等非小说内容）
-- 第三方技能（来源记录在 `skills-lock.json`）：`novel-assistant`、`novel-review`（网文写作与章节审稿）。
+- 第三方技能（来源记录在 `skills-lock.json`）：`novel-assistant`、`novel-review`（网文写作与章节审稿）、`human-writing`（「活人感写作」通用中文创作与改稿，适用于知乎/公众号/博客/科普/评测/小说等，非虚构稿先核材料、虚构稿自由创作，成稿严禁冒号/破折号/翻案句）。
 
 ## 内容审查约定
 
