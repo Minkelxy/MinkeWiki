@@ -126,3 +126,7 @@
 [main beb6ca0] auto: daily backup 2026-08-22
 [2026-08-22 23:47] git commit done
 [2026-08-22 23:47] push failed (no network)
+[main c829aa8] auto: daily backup 2026-08-23
+[2026-08-23 23:47] git commit done
+[2026-08-23 23:47] push ok
+[2026-08-23 23:47] tar backup: /home/minke/backup/wiki-20260823.tar.xz (7.6M)
