@@ -9,17 +9,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 常用命令
 
 ```bash
-pip install -r requirements.txt   # 安装依赖（mkdocs、mkdocs-material 等）
-mkdocs serve                      # 本地开发服务器，热重载，访问 http://localhost:8000
-mkdocs build                      # 构建静态站点到 site/（gitignored）
-cd chat-analyzer && python3 -m pytest tests/   # chat-analyzer 单元测试（⚠️ 须用 python3，`python` 是 Python 2）
+# 安装 Python 依赖（部分 MkDocs 插件未列入 requirements.txt，需手动安装）
+pip install -r requirements.txt
+pip install mkdocs-encryptcontent-plugin mkdocs-git-revision-date-localized-plugin mkdocs-redirects
+
+# 本地开发服务器（热重载，访问 http://localhost:8000）
+mkdocs serve
+
+# 构建静态站点到 site/（gitignored）
+mkdocs build
+
+# 严格构建（用于检查潜在问题，如链接失效）
+mkdocs build --strict
+
+# chat-analyzer 单元测试（须用 python3，`python` 是 Python 2）
+cd chat-analyzer && python3 -m pytest tests/
+
+# 健身数据后端（FastAPI，用于健身页面数据读写/导出/照片上传）
+uvicorn api_server:app --reload --host 0.0.0.0 --port 8000
 ```
 
 - `site/` 已 gitignore，构建产物无需提交。
-- **`requirements.txt` 不完整**：`mkdocs.yml` 用到的三个插件均为全局安装、未列入 requirements。全新环境 build 报缺插件时逐个补装：
-  ```bash
-  pip install mkdocs-encryptcontent-plugin mkdocs-git-revision-date-localized-plugin mkdocs-redirects
-  ```
 - 部署自动触发，无需手动操作。每晚 23:47 cron 运行 `scripts/auto_backup.sh`：自动 git 提交（`auto: daily backup YYYY-MM-DD`）并尝试 push，周日额外生成 tar 快照到 `/home/minke/backup/`（保留最近 4 份）。
 - **Git 提交注意**：提交邮箱须为 GitHub 已验证邮箱（当前 `minkeskl@qq.com`；曾用 `minkelxy@example.com` 导致 push 403「verify your email」）。本机到 GitHub 网络不稳，push 常超时/断连：可用后台 push、让用户 `! git push origin main` 手动推，或等每晚备份脚本自动推。
 
@@ -93,7 +103,7 @@ cd chat-analyzer && python3 -m pytest tests/   # chat-analyzer 单元测试（�
 ## 健身数据后端（api_server.py）
 
 - FastAPI 服务，为健身页面提供数据读写/导出/照片上传接口；数据存于 `data/` 下的 JSON（`training_records.json`、`body_metrics.json`、`photo_meta.json` + `photos/`）。
-- 运行：`uvicorn api_server:app`（fastapi/uvicorn 全局安装，未列入 requirements.txt）。
+- 启动命令见上方「常用命令」中的 `uvicorn` 行。
 
 ## 独立子项目
 
