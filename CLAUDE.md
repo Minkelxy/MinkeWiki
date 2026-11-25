@@ -4,120 +4,118 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概览
 
-个人技术文档库（Minke的技术文档库），基于 MkDocs + Material for MkDocs 构建，内容以中文为主，涵盖嵌入式开发、电机控制、AUTOSAR、游戏自动化等技术领域，以及社交/日记等个人内容。推送到 `main` 分支后由 GitHub Actions（`.github/workflows/deploy.yml`）自动构建并部署到 GitHub Pages（https://minkelxy.github.io/MinkeWiki/）。
+`myMarkdown` 是一个中文优先的个人文档站，使用 MkDocs + Material for MkDocs 构建，在线站点为 <https://minkelxy.github.io/MinkeWiki/>。仓库同时包含两个与文档站配套的本地程序：
+
+- **文档站**：`docs/` 是 Markdown、图片、样式和博客源文件，`mkdocs.yml` 是站点配置，`site/` 是构建产物并被 Git 忽略。内容按技术、创作、生活、事业等栏目组织。
+- **聊天分析器**：`chat-analyzer/` 是独立的 Python CLI。它读取 WeChatMsg 导出的聊天记录，经过解析、总结、评分、人物画像和阶段分析后，把 Markdown 报告导出到 `docs/社交/AI评估/`。
+- **健身 API**：根目录 `api_server.py` 是 FastAPI 应用，读写 `data/` 下的训练、身体指标和照片元数据；`docs/健身/` 页面内嵌了对应的前端脚本。
+
+没有发现 Cursor 或 Copilot 规则文件。仓库级约束以本文件、`README.md`、`mkdocs.yml`、`.github/workflows/deploy.yml` 和相关技能文件为准。
 
 ## 常用命令
 
+命令默认从仓库根目录执行；使用 Python 3.10+。
+
+### MkDocs 文档站
+
 ```bash
-# 安装 Python 依赖（部分 MkDocs 插件未列入 requirements.txt，需手动安装）
-pip install -r requirements.txt
-pip install mkdocs-encryptcontent-plugin mkdocs-git-revision-date-localized-plugin mkdocs-redirects
-
-# 本地开发服务器（热重载，访问 http://localhost:8000）
-mkdocs serve
-
-# 构建静态站点到 site/（gitignored）
-mkdocs build
-
-# 严格构建（用于检查潜在问题，如链接失效）
-mkdocs build --strict
-
-# chat-analyzer 单元测试（须用 python3，`python` 是 Python 2）
-cd chat-analyzer && python3 -m pytest tests/
-
-# 健身数据后端（FastAPI，用于健身页面数据读写/导出/照片上传）
-uvicorn api_server:app --reload --host 0.0.0.0 --port 8000
+python3 -m pip install -r requirements.txt
+# 本地构建社交页面前创建 .mkdocs-passwords.yml；CI 使用 MKDOCS_SOCIAL_PASSWORD Secret
+mkdocs serve                         # http://localhost:8000
+mkdocs build                         # 构建到 site/
+mkdocs build --strict                # 警告即失败（当前会被密码熵警告触发）
 ```
 
-- `site/` 已 gitignore，构建产物无需提交。
-- 部署自动触发，无需手动操作。每晚 23:47 cron 运行 `scripts/auto_backup.sh`：自动 git 提交（`auto: daily backup YYYY-MM-DD`）并尝试 push，周日额外生成 tar 快照到 `/home/minke/backup/`（保留最近 4 份）。
-- **Git 提交注意**：提交邮箱须为 GitHub 已验证邮箱（当前 `minkeskl@qq.com`；曾用 `minkelxy@example.com` 导致 push 403「verify your email」）。本机到 GitHub 网络不稳，push 常超时/断连：可用后台 push、让用户 `! git push origin main` 手动推，或等每晚备份脚本自动推。
+`mkdocs.yml` 通过 `.mkdocs-passwords.yml` 读取社交页面密码；该文件被 Git 忽略，不能提交。首次本地构建前创建它，例如 `printf "social: '你的密码'\\n" > .mkdocs-passwords.yml`。GitHub Actions 需要配置 `MKDOCS_SOCIAL_PASSWORD` Secret，workflow 会在构建时生成临时密码文件。密码保护只作用于生成的站点，原始 Markdown 仍必须按私密资料处理。
 
-## 内容架构
+仓库没有独立的 lint 配置或 Makefile。修改 Markdown、导航或 MkDocs 配置后至少运行 `mkdocs build`。`mkdocs build --strict` 当前会因 mkdocs-encryptcontent-plugin 的密码熵警告（`WARNING`）而中止，未登记页面只会以 INFO 列出；提高 `.mkdocs-passwords.yml` 中的密码强度可消除该警告。GitHub Actions 的部署工作流运行的是非 strict 的 `mkdocs build`。新增普通页面时应登记到 `mkdocs.yml` 的 `nav`，明确不展示的页面才加入 `not_in_nav`。博客文章由 blog 插件发现，社交页面使用 `level: social` 加密，日记日期仍需维护索引和导航。
 
-- `docs/` 为站点内容源，按中文分类目录组织（`知识/`、`制作/`、`社交/`、`健身/`、`创业/`、`游戏/`、`音乐/`、`剧本/` 等）。
-- **`mkdocs.yml` 的 `nav` 为手工维护**：新增/删除文档必须同步更新 nav 条目，否则不会出现在站点导航中。「社交 → AI评估 → 日记」已固定指向 `日记/index.md`，不再逐条追加。
-- **`docs/行动记录/` 命名约定**：行程记录用 `银川MMDD.md`/`天津MMDD.md`（如 `银川0704.md`），通用清单用语义名（如 `出行准备清单.md`）；新文件必须登记「行动记录」nav 栏目。不要用"1""2"这类无意义文件名（会无法定位、不进站点）。
-- **首页 `docs/index.md` 是卡片式栏目导航**（`.nav-cards` 网格，每栏目一张卡片）；文档细节由 nav 承担，避免首页索引过时。
-- **⚠️ `md_in_html` 链接坑**：卡片用纯 HTML `<a href="...">`，MkDocs **不会转换**纯 HTML 里的链接——href 必须写**渲染后的 URL**（`README.md`/`index.md` → `目录/`，普通文件 → `路径/文件名/`），写成 `.md` 会 404（曾踩过：首页卡片 `.md` 路径全部失效）。只有 markdown 语法的链接 `[文本](路径)` 才会被 MkDocs 自动转换。
-- **空文件/未完成文档不进 nav**：0 字节占位文件不登记 nav（点了是空白页），内容写完后登记再发布。
-- **栏目入口页命名**：各栏目目录页统一用 `README.md` 或 `index.md`——MkDocs 把子目录下的 `README.md`/`index.md` 当作目录首页，渲染 URL 为 `目录/`（如 `知识/README.md` → `知识/`）；新栏目建议用 `README.md`（如 `观影/README.md`），避免 `目录.md`/`制作目录.md` 等历史遗留变体。`mkdocs.yml` 的 `redirects` 插件已为历史 `目录.md` 路径配置重定向。
-- **nav 顶层按四大类分组**（`技术` / `创作` / `生活` / `事业`），外加 `首页`、`GitHub项目索引` 顶层入口；各栏目内第一个条目是其 `README.md` 入口。
-- **标签系统**：`tags` 插件已启用、`docs/tags.md` 为标签索引页（自动生成）。新文档建议在 YAML frontmatter 加 `tags:`（如 `tags: [电机控制, FOC]`），使标签页聚合跨栏目内容（全站约 160 个文档已加标签）；空文件/占位不加。
-- 插件约定：`encryptcontent` 支持页面加密（加密页不进入明文搜索索引）；`blog` 插件管理 `docs/blog/posts/`（文章 frontmatter 需 `date`/`slug`/`authors`/`categories`，作者定义在 `docs/blog/.authors.yml`）；`tags` 插件依赖 `docs/tags.md` 标签页。
-- 正文能力：mermaid 图（``` mermaid 代码块）、admonition 提示框、emoji（`:material-xxx:`/`:smile:`，需 `emoji` 包，已装）、脚注 `[^1]`、`==标记高亮==`、`~~删除线~~`、任务列表 `- [x]`。
-- **`md_in_html` 内嵌图表**：页面可用 HTML + `<script>` 内嵌 ECharts（示例见 `健身/健身数据/训练记录.md`、`社交/AI评估/评分总表.md`）；注意隐藏 tab 里 `init` 的图表需在切换时 `chart.resize()`，数据要先按日期排序。
-- **`docs/社交/` 是目前最活跃、持续维护的部分**：
-  - `第0段记录.md` — 长文日记（正在持续撰写，非 AI 生成）
-  - `AI评估/日记/<YYYY-MM-DD>.md` — 每日 AI 生成的日记，配套 `AI评估/日记/index.md` 索引，以及评分总表、人物画像、待跟进、阶段分析等报告
-  - 每日日记的完整写入/更新流程见 `.agents/skills/diary/SKILL.md`（新建文件 → 按格式撰写 → 追加 index.md → 更新 mkdocs.yml nav）
+### 聊天分析器
 
-## 社交板块固定操作
+```bash
+cd chat-analyzer
+python3 -m pip install -r requirements.txt pytest
+python3 -m pytest tests                              # 全部测试
+python3 -m pytest tests/test_parser.py -v            # 单文件
+python3 -m pytest tests/test_parser.py::test_parse_iso_format -v
+python3 -m compileall -q main.py modules              # 快速语法检查
+python3 main.py --date YYYY-MM-DD                    # parse → summarize → eval → portrait
+python3 main.py --date YYYY-MM-DD parse
+python3 main.py --date YYYY-MM-DD eval
+python3 main.py report                               # 长期趋势报告
+python3 main.py export --target ../docs/社交/AI评估
+```
 
-`docs/社交/` 有固定的维护流程，按操作类型分四类：
+`config.yaml` 被 `chat-analyzer/.gitignore` 忽略，首次使用需要在 `chat-analyzer/` 创建本地配置，至少提供联系人、`paths`、API 配置、评分权重和提醒阈值；配置中的相对路径相对于配置文件所在目录解析。API key 可放在本地配置，或留空后通过 `DEEPSEEK_API_KEY` 提供。不要把配置、原始聊天记录或 `data/`、`output/` 生成物加入 Git。注意仓库历史中已跟踪 `chat-analyzer/single_*.json`（WeChatMsg 原始导出，含 wxid 和聊天原文）；不要新增此类文件，处理时按私密资料对待。
 
-### 1. 每日日记（`docs/社交/AI评估/日记/`）
+`main.py` 的其他子命令包括 `portrait`、`portrait-show`、`dedup`、`stats`、`html` 和 `stage`；全局参数包括 `--date`、`--all`、`--force`、`--dry`、`--config`，它们必须放在子命令之前（`export --target` 这类子命令自有参数除外）。`summarize` 不是可调用的子命令。`report` 生成长期趋势报告（`Reporter`），`html` 生成综合 HTML 报告（`ReportGenerator`）。`--all` 会增量跳过已有评分的日期，处理后自动生成 HTML 并导出；使用 `--force` 才会重跑已有日期的 summarize/eval/portrait，但 `parse` 对已存在的 `parsed/<日期>.json` 总是跳过，需要手动删除解析文件才能重新解析。`--dry` 只被 summarize、portrait、stage、report 等部分路径检查，`parse` 和 `eval` 仍会写文件，`--all` 末尾的 HTML 生成与导出也仍会执行，不能把它当作全流程只读预览。`export` 的相对 `--target`（含默认值 `../docs/社交/AI评估`）由 `MdExporter` 相对于配置文件所在目录解析，因此在 `chat-analyzer/` 下用默认配置运行就指向 `docs/社交/AI评估`；但 `--config` 本身默认是相对当前工作目录的 `config.yaml`，所以仍应 `cd chat-analyzer` 或显式传 `--config`。导出会覆盖目标目录中的同名报告和日记，但不会维护 `日记/index.md` 或导航。
 
-每条 `docs/社交/AI评估/日记/<YYYY-MM-DD>.md` 格式固定（详见 `.agents/skills/diary/SKILL.md`）：
-`# YYYY-MM-DD 日记` → `## 总结`（口语化、具体、有细节）→ `## 计划` → `## 待跟进`。
+测试目前只覆盖 `chat-analyzer/modules/parser.py` 的 3 个用例，API 没有自动化测试。聊天分析器的运行依赖在 `chat-analyzer/requirements.txt`（测试还需单独安装 `pytest`），健身 API 的依赖不在其中；不要假定根 `requirements.txt` 已安装它们。
 
-日记有两个来源，殊途同归：
-- **chat-analyzer 自动生成**（从真实聊天记录分析，见下节）
-- **`/diary` 技能手写**（用户口头叙述 → 按 diary SKILL 撰写）
+### 健身 API
 
-**写入后固定两步**（新日期必做）：
-1. 新建/更新 `docs/社交/AI评估/日记/<YYYY-MM-DD>.md`
-2. 追加 `docs/社交/AI评估/日记/index.md`：`- [MM-DD](YYYY-MM-DD.md)`（按日期升序）
-（「社交 → AI评估 → 日记」nav 已固定指向 `日记/index.md`，无需逐条登记）
+API 运行依赖 FastAPI、Uvicorn 和文件上传所需的 `python-multipart`，这些不在根依赖文件中：
 
-### 2. chat-analyzer 分析流水线（`chat-analyzer/`）
+```bash
+python3 -m pip install fastapi uvicorn python-multipart
+python3 -m uvicorn api_server:app --reload --host 127.0.0.1 --port 8001
+```
 
-从聊天记录批量生成评估报告，命令在 `chat-analyzer/` 目录执行：
+后端路由是 `/fitness/*`（`/fitness/training-records`、`/fitness/body-metrics`、`/fitness/photos`、`/fitness/export/...`）。`docs/健身/` 页面的 `data-api-base` 默认为空，脚本中 `apiEnabled = Boolean(API)`；为空时页面只读并显示本地提示，不会发出请求。要启用读写，把 `data-api-base` 设为服务基址（例如 `http://127.0.0.1:8001/fitness`，或反向代理到该前缀）。仅启动 Uvicorn 不会自动提供 `/api` 或根路径别名。API 无鉴权、CORS 对全部来源开放，默认只应在受信任的本机/内网运行，不能直接暴露到公网。接口会直接写入被 Git 跟踪的 `data/*.json`，上传还会创建 `data/photos/<年>/<月>/`；操作后检查工作树，避免把运行数据或照片随意提交。
 
-1. WeChatMsg 导出聊天记录 → `data/chat_logs/raw/<日期>.txt`（该目录 gitignored）
-2. 全流程：`python3 main.py --date YYYY-MM-DD`（parse → summarize → evaluate → portrait，中间产物在 `output/`；**所有命令须用 `python3`，`python` 指向 Python 2**）
-3. 发布到站点：`python3 main.py export`（默认写入 `../docs/社交/AI评估/`，覆盖 README/评分总表/人物画像/待跟进/阶段分析，并复制 `output/diary/` 到 `日记/`；`评分总表.md` 由 `md_exporter` 自动内嵌 ECharts 评分趋势图）
-4. 常用变体：`--all` 批量所有日期（自动跳过已处理）、`--force` 强制重跑、`--dry` 预览不写、`report` 长期趋势、`stage` 阶段分析、`html` HTML 综合报告、`portrait-show` 查看画像、`dedup` 画像去重、`stats` 每日统计
-5. 配置 `config.yaml` 内含 DeepSeek API key（gitignored），可用环境变量 `DEEPSEEK_API_KEY` 替代
+## 代码与数据流
 
-> ⚠️ `export` 会用 `output/` 覆盖 `docs/社交/AI评估/` 下同名文件（含 `日记/`）；若站内有人工润色内容需先备份，或在 export 后重新应用。`export` 不会生成 `日记/index.md`（手工维护，见上）。
+### 文档站
 
-### 3. 长文日记（`第0段记录.md` / `第1段记录.md`）
+`mkdocs.yml` 的 `nav` 是手工维护的站点信息架构，不能依赖文件自动发现。栏目入口优先使用 `README.md` 或 `index.md`。新增、重命名或删除普通页面时同步修改 `nav`；旧栏目入口的兼容路径还要检查 `redirect_maps`。文档 frontmatter 中的 `tags` 由 tags 插件汇总到 `docs/tags.md`。`docs/社交/` 下的页面（含 `README.md`、`AI评估/*` 和每篇日记）需要在 frontmatter 写 `level: social` 才会被 encryptcontent 加密，新增社交页面不要漏掉。
 
-人工撰写、持续追加，非 AI 生成，无固定格式约束。分段约定：第0段记录止于 8-3（从 7-4 初次认识起）；第1段记录从 8-4 月度纪念日节点起，按日期分节（`## 8-4`、`## 8-5`…）。日期标题一律用 `##` 二级标题（曾出现 `# 8-10` 一级标题破坏层级的问题）。
+`docs/blog/` 由 Material blog 插件管理，文章作者定义在 `docs/blog/.authors.yml`，不要把博客文章逐篇复制进普通栏目导航。Mermaid 使用 `pymdownx.superfences` 的自定义 fence 和 `extra_javascript` 中的 CDN，不要假设启用了 `mermaid2`。原始 HTML 中的 `<a href>` 不会经过 MkDocs 链接转换，首页卡片等 HTML 链接必须写渲染后的 URL；Markdown 链接才会自动转换。
 
-### 4. 每次改动后
+内嵌 ECharts 常见于健身页面和 AI 评估报告。图表放在隐藏 tab 中时，切换显示后调用 `chart.resize()`；时间序列数据先按日期排序。
 
-涉及社交板块的增删改，均需 `mkdocs build` 通过后再提交（nav 手工维护，新文件必须登记）。
+修改 `docs/社交/` 或 `mkdocs.yml` 后运行 `mkdocs build`。新日记的固定维护步骤是：
 
-## 持续内容补充工作流（content-supplement-loop）
+1. 创建或更新 `docs/社交/AI评估/日记/YYYY-MM-DD.md`；
+2. 按日期升序在 `日记/index.md` 添加 `- [MM-DD](YYYY-MM-DD.md)`；
+3. 按当前 `mkdocs.yml` 的实际结构，在日记导航中添加新日期条目。
 
-文档库最常见的重复性任务：按轮次为某个栏目撰写原创内容并提交（git 历史中大量 `chore: 持续补充 <栏目>` commit 即此流程产出）。
+`.agents/skills/diary/SKILL.md` 中关于导航的描述曾与当前配置不一致，以仓库现状和本文件为准。
 
-- **轮转顺序**：制作项目 → 知识库 → 创业 → 游戏 → 音乐 → 剧本 → 健身 → 小屋装修。用 `git log --format=%s` 查最近一条 `chore: 持续补充` commit 判断做到哪，做下一个。
-- **内容风格**：写有实质内容的原创文档（技术解析、方案设计、方法指南、流程路线），并给出明确项目推荐——推荐做什么、为什么值得做、怎么做、产出什么。开源项目只作支撑论据和参考来源（标注真实 URL），不要只堆 star 列表。
-- **每轮约定**：新建文件须同步 `mkdocs.yml` nav；**每轮独立 `mkdocs build` 通过后单独 commit**（即使连跑多轮也逐轮 build+commit，不得整批最后才 build——否则 nav 指向未提交文档会导致中间 commit 构建不过）；commit 消息 `chore: 持续补充 <栏目> <简述>`，**不 push**。
-- **不碰** `docs/社交/`、`docs/行动记录/`、`data/`、`chat-analyzer/`。该轮无有价值新内容时写"本期无更新"并说明原因，不硬凑。
-- ⚠️ 主循环已于 2026-08-06 暂停；若用户要求重启，按上述约定恢复即可。
+### 聊天分析器流水线
 
-## 健身数据后端（api_server.py）
+1. 将 WeChatMsg 导出文件放入配置指定的 `chat-analyzer/data/chat_logs/raw/`。
+2. `parse` 生成 `data/chat_logs/parsed/<日期>.json`；已有解析文件会跳过，日期分界由 `day_boundary` 控制，默认凌晨 4 点。
+3. summarizer、evaluator、portrait、stage_analyzer 等模块写入 `chat-analyzer/output/`，包括评分、日记、画像、待跟进和阶段报告。
+4. `MdExporter` 把固定名称的 README、评分总表、人物画像、待跟进、阶段分析和日记复制/生成到 `docs/社交/AI评估/`。
 
-- FastAPI 服务，为健身页面提供数据读写/导出/照片上传接口；数据存于 `data/` 下的 JSON（`training_records.json`、`body_metrics.json`、`photo_meta.json` + `photos/`）。
-- 启动命令见上方「常用命令」中的 `uvicorn` 行。
+主要模块与产物：
 
-## 独立子项目
+| 模块 | 产物 |
+|------|------|
+| `parser.py` | `data/chat_logs/parsed/<日期>.json` |
+| `summarizer.py` | `output/diary/<日期>.md`、`output/todos.json` |
+| `evaluator.py` | `output/scores.json` |
+| `portrait.py` | `output/portrait.md` |
+| `stage_analyzer.py` | `output/stage_report_<时间戳>.md` |
+| `reporter.py` | `output/report_<YYYYMMDD>.md`（`report` 子命令） |
+| `report_generator.py` | `output/full_report_<时间戳>.html`（`html` 子命令） |
+| `md_exporter.py` | `docs/社交/AI评估/` 下的固定报告与日记 |
 
-- `chat-analyzer/` — 聊天记录评估系统（独立 Python 项目，与 MkDocs 站点无关），将 WeChatMsg 导出的聊天记录解析、评估并生成 `docs/社交/AI评估/` 下的报告。完整操作流程见「社交板块固定操作」第 2 节；配置与 API key 说明同节。
+`main.py` 负责 CLI 编排，具体能力分散在 `chat-analyzer/modules/`；提示词在 `chat-analyzer/prompts/`。修改导出文件名、字段或报告格式时，同时检查 `mkdocs.yml` 导航、日记索引和站点页面。
 
-## Claude Code 技能
+### 健身 API 数据约定
 
-- 技能源码位于 `.agents/skills/`，通过符号链接暴露到 `.claude/skills/`（新增技能需两处都配置）。
-- 自定义技能：
-  - `diary` — 写日记（见上，有严格的文件/索引/nav 流程）
-  - `article-review` — 通用文章审查（博客、日记、笔记、技术文档等非小说内容）
-- 第三方技能（来源记录在 `skills-lock.json`）：`novel-assistant`、`novel-review`（网文写作与章节审稿）、`human-writing`（「活人感写作」通用中文创作与改稿，适用于知乎/公众号/博客/科普/评测/小说等，非虚构稿先核材料、虚构稿自由创作，成稿严禁冒号/破折号/翻案句）。
+`api_server.py` 使用 Pydantic 模型定义训练记录和身体指标。训练记录是追加写入；同一日期的身体指标 POST 会替换旧记录；ID 由服务端生成。照片上传只接受图片且不超过 10 MB，照片读取会校验路径，导出支持带 UTF-8 BOM 的 CSV 和 JSON。修改模型或接口时，同时检查 `docs/健身/` 的内嵌 JavaScript、JSON 数据格式和导出行为。
 
-## 内容审查约定
+## 内容导航与日记
 
-- 审查/审稿/校对类请求：非小说内容用 `article-review` 技能，小说章节用 `novel-review`。
-- 审查报告按 Red（致命）/Yellow（重要）/Green（优化）三级输出，必须引用原文片段定位问题，并给出可操作修改建议；审查只出报告、不直接修改原文。
+- 顶层导航为首页、标签、GitHub 项目索引，以及技术、创作、生活、事业四大栏目。
+- `docs/行动记录/` 使用有语义的文件名，新增记录需登记导航；`_模板.md` 等明确不发布的文件放入 `not_in_nav`。
+- 日记内容遵循现有的 `总结`、`计划`、`待跟进` 结构。日记技能和文章审查技能的具体格式、审核分级及输出要求分别见 `.agents/skills/diary/SKILL.md` 和 `.agents/skills/article-review/SKILL.md`。
+- 审查/审稿类请求默认只生成报告，不直接改写原文；小说章节使用 `novel-review`，非小说内容使用 `article-review`。
+
+## Claude Code 技能与自动化
+
+技能源码在 `.agents/skills/`，`.claude/skills/` 下的同名项是符号链接。`diary`、`article-review` 是本仓库技能；`human-writing`、`novel-assistant`、`novel-review` 的来源和哈希记录在 `skills-lock.json`。修改第三方技能时注意会造成锁文件漂移。
+
+`scripts/auto_backup.sh` 是本机专用脚本，硬编码 `/home/minke/myMarkdown`，会 `git add -A`、自动提交并尝试推送 `main`，周日还会生成备份压缩包。除非用户明确要求，不要运行它：它可能把生成数据或本地文件一起暂存/提交，且脚本日志 `scripts/backup.log` 本身会留下工作树改动。部署应以 `.github/workflows/deploy.yml` 为准，推送 `main` 后由 GitHub Actions 构建并发布 GitHub Pages；`deploy-to-github.md` 是旧的通用说明，不要把它当作当前部署流程。
